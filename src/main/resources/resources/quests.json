@@ -1,31 +1,31 @@
 {
   "minicraft.quest.stronger": {
-    "desc": "minicraft.quest.stronger.desc",
+    "description": "minicraft.quest.stronger.desc",
     "leads_to": ["minicraft.quest.road_of_gem"],
     "quests": [
       {
         "id": "minicraft.quest.stronger.iron_armor",
-        "desc": "minicraft.quest.stronger.iron_armor.desc",
+        "description": "minicraft.quest.stronger.iron_armor.desc",
         "leads_to": ["minicraft.quest.stronger.first_potion"]
       },
       {
         "id": "minicraft.quest.stronger.first_potion",
-        "desc": "minicraft.quest.stronger.first_potion.desc"
+        "description": "minicraft.quest.stronger.first_potion.desc"
       }
     ],
     "unlocked": true
   },
   "minicraft.quest.road_of_gem": {
-    "desc": "minicraft.quest.road_of_gem.desc",
+    "description": "minicraft.quest.road_of_gem.desc",
     "quests": [
       {
         "id": "minicraft.quest.road_of_gem.get_gem",
-        "desc": "minicraft.quest.road_of_gem.get_gem.desc",
+        "description": "minicraft.quest.road_of_gem.get_gem.desc",
         "leads_to": ["minicraft.quest.road_of_gem.gem_armor"]
       },
       {
         "id": "minicraft.quest.road_of_gem.gem_armor",
-        "desc": "minicraft.quest.road_of_gem.gem_armor.desc"
+        "description": "minicraft.quest.road_of_gem.gem_armor.desc"
       }
     ],
     "rewards": {
