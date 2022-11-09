@@ -27,6 +27,7 @@ import minicraft.gfx.Point;
 import minicraft.gfx.Screen;
 import minicraft.gfx.SpriteSheet;
 import minicraft.item.Items;
+import minicraft.item.PotionEffect;
 import minicraft.item.PotionType;
 import minicraft.item.ToolItem;
 import minicraft.item.ToolType;
@@ -162,7 +163,7 @@ public class Renderer extends Game {
 		// This creates the darkness in the caves
 		if ((currentLevel != 3 || Updater.tickCount < Updater.dayLength/4 || Updater.tickCount > Updater.dayLength/2) && !isMode("minicraft.settings.mode.creative")) {
 			lightScreen.clear(0); // This doesn't mean that the pixel will be black; it means that the pixel will be DARK, by default; lightScreen is about light vs. dark, not necessarily a color. The light level it has is compared with the minimum light values in dither to decide whether to leave the cell alone, or mark it as "dark", which will do different things depending on the game level and time of day.
-			int brightnessMultiplier = player.potioneffects.containsKey(PotionType.Light) ? 12 : 8; // Brightens all light sources by a factor of 1.5 when the player has the Light potion effect. (8 above is normal)
+			int brightnessMultiplier = player.potionEffects.containsKey(PotionType.Light) ? 12 : 8; // Brightens all light sources by a factor of 1.5 when the player has the Light potion effect. (8 above is normal)
 			level.renderLight(lightScreen, xScroll, yScroll, brightnessMultiplier); // Finds (and renders) all the light from objects (like the player, lanterns, and lava).
 			screen.overlay(lightScreen, currentLevel, xScroll, yScroll); // Overlays the light screen over the main screen.
 		}
@@ -275,16 +276,16 @@ public class Renderer extends Game {
 		}
 
 		// This renders the potions overlay
-		if (player.showpotioneffects && player.potioneffects.size() > 0) {
+		if (player.showpotioneffects && player.potionEffects.size() > 0) {
 
 			@SuppressWarnings("unchecked")
-			Map.Entry<PotionType, Integer>[] effects = player.potioneffects.entrySet().toArray(new Map.Entry[0]);
+			Map.Entry<PotionType, PotionEffect>[] effects = player.potionEffects.entrySet().toArray(new Map.Entry[0]);
 
 			// The key is potion type, value is remaining potion duration.
 			if (!player.simpPotionEffects) {
 				for (int i = 0; i < effects.length; i++) {
 					PotionType pType = effects[i].getKey();
-					int pTime = effects[i].getValue() / Updater.normSpeed;
+					int pTime = effects[i].getValue().getDuration() / Updater.normSpeed;
 					int minutes = pTime / 60;
 					int seconds = pTime % 60;
 					Font.drawBackground(Localization.getLocalized("minicraft.display.gui.potion_effects.hide_hint", input.getMapping("potionEffects")), screen, 180, 9);

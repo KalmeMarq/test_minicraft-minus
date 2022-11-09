@@ -20,6 +20,9 @@ bin/
 out/
 classes/
 
+# Debug run gameDir
+run/
+
 # Log files
 logs/
 

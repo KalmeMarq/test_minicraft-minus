@@ -84,7 +84,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 	private int hungerChargeDelay; // The delay between each time the hunger bar increases your health
 	private int hungerStarveDelay; // The delay between each time the hunger bar decreases your health
 
-	public HashMap<PotionType, Integer> potioneffects; // The potion effects currently applied to the player
+	public HashMap<PotionType, PotionEffect> potionEffects; // The potion effects currently applied to the player
 	public boolean showpotioneffects; // Whether to display the current potion effects on screen
 	public boolean simpPotionEffects;
 	public boolean renderGUI;
@@ -110,7 +110,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 		// Since this implementation will be deleted by Better Creative Mode Inventory might not implemented correctly
 		inventory = new Inventory();
 
-		potioneffects = new HashMap<>();
+		potionEffects = new HashMap<>();
 		showpotioneffects = true;
 		simpPotionEffects = false;
 		renderGUI = true;
@@ -169,7 +169,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 	 * @param duration How long the effect lasts.
 	 */
 	public void addPotionEffect(PotionType type, int duration) {
-		potioneffects.put(type, duration);
+		potionEffects.put(type, new PotionEffect(type, duration));
 	}
 
 	/**
@@ -184,7 +184,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 	 * Returns all the potion effects currently affecting the player.
 	 * @return all potion effects on the player.
 	 */
-	public HashMap<PotionType, Integer> getPotionEffects() { return potioneffects; }
+	public HashMap<PotionType, PotionEffect> getPotionEffects() { return potionEffects; }
 
 	@Override
 	public void tick() {
@@ -195,11 +195,13 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 
 		tickMultiplier();
 
-		if (potioneffects.size() > 0 && !Bed.inBed(this)) {
-			for (PotionType potionType: potioneffects.keySet().toArray(new PotionType[0])) {
-				if (potioneffects.get(potionType) <= 1) // If time is zero (going to be set to 0 in a moment)...
+		if (potionEffects.size() > 0 && !Bed.inBed(this)) {
+			for (PotionType potionType: potionEffects.keySet().toArray(new PotionType[0])) {
+				if (potionEffects.get(potionType).getDuration() <= 1) // If time is zero (going to be set to 0 in a moment)...
 					PotionItem.applyPotion(this, potionType, false); // Automatically removes this potion effect.
-				else potioneffects.put(potionType, potioneffects.get(potionType) - 1); // Otherwise, replace it with one less.
+				else {
+					potionEffects.get(potionType).substractDuration(1);
+				} // Otherwise, replace it with one less.
 			}
 		}
 
@@ -271,7 +273,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 		if (staminaRechargeDelay == 0) {
 			staminaRecharge++; // Ticks since last recharge, accounting for the time potion effect.
 
-			if (isSwimming() && !potioneffects.containsKey(PotionType.Swim)) staminaRecharge = 0; // Don't recharge stamina while swimming.
+			if (isSwimming() && !potionEffects.containsKey(PotionType.Swim)) staminaRecharge = 0; // Don't recharge stamina while swimming.
 
 			// Recharge a bolt for each multiple of maxStaminaRecharge.
 			while (staminaRecharge > maxStaminaRecharge) {
@@ -337,7 +339,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 		}
 
 		// regen health
-		if (potioneffects.containsKey(PotionType.Regen)) {
+		if (potionEffects.containsKey(PotionType.Regen)) {
 			regentick++;
 			if (regentick > 60) {
 				regentick = 0;
@@ -369,7 +371,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 
 			// Executes if not saving; and... essentially halves speed if out of stamina.
 			if ((vec.x != 0 || vec.y != 0) && (staminaRechargeDelay % 2 == 0 || isSwimming()) && !Updater.saving) {
-				double spd = moveSpeed * (potioneffects.containsKey(PotionType.Speed) ? 1.5D : 1);
+				double spd = moveSpeed * (potionEffects.containsKey(PotionType.Speed) ? 1.5D : 1);
 				int xd = (int) (vec.x * spd);
 				int yd = (int) (vec.y * spd);
 
@@ -382,7 +384,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 			}
 
 
-			if (isSwimming() && tickTime % 60 == 0 && !potioneffects.containsKey(PotionType.Swim)) { // If drowning... :P
+			if (isSwimming() && tickTime % 60 == 0 && !potionEffects.containsKey(PotionType.Swim)) { // If drowning... :P
 				if (stamina > 0) payStamina(1); // Take away stamina
 				else directHurt(1, Direction.NONE); // If no stamina, take damage.
 			}
@@ -402,7 +404,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 			}
 
 			if ((activeItem == null || !activeItem.used_pending) && (input.getKey("attack").clicked) && stamina != 0 && onFallDelay <= 0) { // This only allows attacks when such action is possible.
-				if (!potioneffects.containsKey(PotionType.Energy)) stamina--;
+				if (!potionEffects.containsKey(PotionType.Energy)) stamina--;
 				staminaRecharge = 0;
 
 				attack();
@@ -443,7 +445,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 				}
 				//debug feature:
 				if (Game.debug && input.getKey("shift-p").down) { // Remove all potion effects
-					for (PotionType potionType : potioneffects.keySet()) {
+					for (PotionType potionType : potionEffects.keySet()) {
 						PotionItem.applyPotion(this, potionType, false);
 					}
 				}
@@ -953,7 +955,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 	 * @return true if the player had enough stamina, false if not.
 	 */
 	public boolean payStamina(int cost) {
-		if (potioneffects.containsKey(PotionType.Energy)) return true; // If the player has the potion effect for infinite stamina, return true (without subtracting cost).
+		if (potionEffects.containsKey(PotionType.Energy)) return true; // If the player has the potion effect for infinite stamina, return true (without subtracting cost).
 		else if (stamina <= 0) return false; // If the player doesn't have enough stamina, then return false; failure.
 
 		if (cost < 0) cost = 0; // Error correction

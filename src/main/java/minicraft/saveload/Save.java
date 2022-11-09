@@ -16,6 +16,7 @@ import minicraft.entity.particle.Particle;
 import minicraft.entity.particle.TextParticle;
 import minicraft.item.Inventory;
 import minicraft.item.Item;
+import minicraft.item.PotionEffect;
 import minicraft.item.PotionType;
 import minicraft.item.Recipe;
 import minicraft.screen.*;
@@ -300,10 +301,10 @@ public class Save {
 
 		StringBuilder subdata = new StringBuilder("PotionEffects[");
 
-		for (java.util.Map.Entry<PotionType, Integer> potion: player.potioneffects.entrySet())
-			subdata.append(potion.getKey()).append(";").append(potion.getValue()).append(":");
+		for (java.util.Map.Entry<PotionType, PotionEffect> potion: player.potionEffects.entrySet())
+			subdata.append(potion.getKey()).append(";").append(potion.getValue().getDuration()).append(":");
 
-		if (player.potioneffects.size() > 0)
+		if (player.potionEffects.size() > 0)
 			subdata = new StringBuilder(subdata.substring(0, subdata.length() - (1)) + "]"); // Cuts off extra ":" and appends "]"
 		else subdata.append("]");
 		data.add(subdata.toString());
