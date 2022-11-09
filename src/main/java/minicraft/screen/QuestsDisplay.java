@@ -91,7 +91,7 @@ public class QuestsDisplay extends Display {
 			quests.put(quest.id, quest);
 		}
 
-		series.put(id, new QuestSeries(id, json.getString("desc"), seriesQuests, loadReward(json.optJSONObject("reward")), unlocked, tutorial, unlocks));
+		series.put(id, new QuestSeries(id, json.getString("description"), seriesQuests, loadReward(json.optJSONObject("reward")), unlocked, tutorial, unlocks));
 	}
 
 	private static QuestReward loadReward(JSONObject json) {
@@ -132,7 +132,7 @@ public class QuestsDisplay extends Display {
 			}
 		}
 
-		return new Quest(json.getString("id"), json.getString("desc"), loadReward(json.optJSONObject("reward")), false, unlocks);
+		return new Quest(json.getString("id"), json.getString("description"), loadReward(json.optJSONObject("reward")), false, unlocks);
 	}
 
 

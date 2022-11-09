@@ -51,7 +51,7 @@ public class AchievementsDisplay extends Display {
                     // Create an achievement with the data.
                     Achievement a = new Achievement(
                             Localization.getLocalized(obj.getString("id")),
-                            obj.getString("desc"),
+                            obj.getString("description"),
                             obj.getInt("score")
                     );
 
@@ -142,6 +142,7 @@ public class AchievementsDisplay extends Display {
     public static boolean setAchievement(String id, boolean unlocked) {
         return setAchievement(id, unlocked, true, false);
     }
+
 	public static boolean setAchievement(boolean allowCreative, String id, boolean unlocked) { return setAchievement(id, unlocked, true, allowCreative); }
 
 	private static boolean setAchievement(String id, boolean unlocked, boolean save, boolean allowCreative) {
