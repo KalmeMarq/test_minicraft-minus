@@ -109,23 +109,23 @@ public class Creeper extends EnemyMob {
 					Point ePos = new Point(entity.x >> 4, entity.y >> 4);
 					for (Point p : tilePositions) {
 						if (!p.equals(ePos)) continue;
-						if (!level.getTile(p.x, p.y).mayPass(level, p.x, p.y, entity))
+						if (!level.getTile(p.getX(), p.getY()).mayPass(level, p.getX(), p.getY(), entity))
 							entity.die();
 					}
 				}
 				for (Point tilePosition : tilePositions) { // Destroys tiles in range
 					boolean hasSpawner = false;
 					for (Entity spawner : spawners) {
-						if (spawner.x >> 4 == tilePosition.x && spawner.y >> 4 == tilePosition.y) { // Check if current tile has a spawner on it
+						if (spawner.x >> 4 == tilePosition.getX() && spawner.y >> 4 == tilePosition.getY()) { // Check if current tile has a spawner on it
 							hasSpawner = true;
 							break;
 						}
 					}
 					if (!hasSpawner) {
 						if (level.depth != 1) {
-							level.setAreaTiles(tilePosition.x, tilePosition.y, 0, Tiles.get("hole"), 0, explosionBlacklist);
+							level.setAreaTiles(tilePosition.getX(), tilePosition.getY(), 0, Tiles.get("hole"), 0, explosionBlacklist);
 						} else {
-							level.setAreaTiles(tilePosition.x, tilePosition.y, 0, Tiles.get("Infinite Fall"), 0, explosionBlacklist);
+							level.setAreaTiles(tilePosition.getX(), tilePosition.getY(), 0, Tiles.get("Infinite Fall"), 0, explosionBlacklist);
 						}
 
 					}

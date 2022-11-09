@@ -32,7 +32,7 @@ public class Rectangle {
 
 	public Rectangle(Point p, Dimension d) { this(false, p, d); }
 	public Rectangle(boolean isCenter, Point p, Dimension d) {
-		this(p.x, p.y, d.width, d.height, isCenter ? CENTER_DIMS : CORNER_DIMS);
+		this(p.getX(), p.getY(), d.getWidth(), d.getHeight(), isCenter ? CENTER_DIMS : CORNER_DIMS);
 	}
 
 	public Rectangle(Rectangle model) {
@@ -55,8 +55,8 @@ public class Rectangle {
 
 	public Point getPosition(RelPos relPos) {
 		Point p = new Point(x, y);
-		p.x += relPos.xIndex * w/2;
-		p.y += relPos.yIndex * h/2;
+		p.setX(p.getX() + relPos.xIndex * w/2);
+		p.setY(p.getY() + relPos.yIndex * h/2);
 		return p;
 	}
 
@@ -68,7 +68,7 @@ public class Rectangle {
 		);
 	}
 
-	public void setPosition(Point p, RelPos relPos) { setPosition(p.x, p.y, relPos); }
+	public void setPosition(Point p, RelPos relPos) { setPosition(p.getX(), p.getY(), relPos); }
 	public void setPosition(int x, int y, RelPos relPos) {
 		this.x = x - relPos.xIndex*w/2;
 		this.y = y - relPos.yIndex*h/2;
@@ -79,7 +79,7 @@ public class Rectangle {
 		y += yoff;
 	}
 
-	public void setSize(Dimension d, RelPos anchor) { setSize(d.width, d.height, anchor); }
+	public void setSize(Dimension d, RelPos anchor) { setSize(d.getWidth(), d.getHeight(), anchor); }
 	public void setSize(int width, int height, RelPos anchor) {
 		Point p = getPosition(anchor);
 		this.w = width;

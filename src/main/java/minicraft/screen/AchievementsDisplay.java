@@ -126,7 +126,7 @@ public class AchievementsDisplay extends Display {
             }
 
             // Achievement description.
-            menus[1].setEntries(StringEntry.useLines(Font.getLines(Localization.getLocalized(selectedAchievement.description), menus[1].getBounds().getSize().width, menus[1].getBounds().getSize().height, 2)));
+            menus[1].setEntries(StringEntry.useLines(Font.getLines(Localization.getLocalized(selectedAchievement.description), menus[1].getBounds().getSize().getWidth(), menus[1].getBounds().getSize().getHeight(), 2)));
         }
 
         // Help text.

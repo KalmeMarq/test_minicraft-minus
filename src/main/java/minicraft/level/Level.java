@@ -772,7 +772,7 @@ public class Level {
 		ArrayList<Tile> local = new ArrayList<>();
 
 		for (Point p: getAreaTilePositions(x, y, rx, ry))
-			 local.add(getTile(p.x, p.y));
+			 local.add(getTile(p.getX(), p.getY()));
 
 		return local.toArray(new Tile[local.size()]);
 	}

@@ -279,13 +279,13 @@ public class Menu {
 		if(title.length() > 0) {
 			if (drawVertically) {
 				for (int i = 0; i < title.length(); i++) {
-					if (hasFrame) screen.render(titleLoc.x, titleLoc.y + i * Font.textHeight(), 3 + 21 * 32, 0, 3);
-					Font.draw(title.substring(i, i + 1), screen, titleLoc.x, titleLoc.y + i * Font.textHeight(), titleColor);
+					if (hasFrame) screen.render(titleLoc.getX(), titleLoc.getY() + i * Font.textHeight(), 3 + 21 * 32, 0, 3);
+					Font.draw(title.substring(i, i + 1), screen, titleLoc.getX(), titleLoc.getY() + i * Font.textHeight(), titleColor);
 				}
 			} else {
 				for (int i = 0; i < title.length(); i++) {
-					if (hasFrame) screen.render(titleLoc.x + i * Font.textWidth(" "), titleLoc.y, 3 + 21 * 32, 0, 3);
-					Font.draw(title.substring(i, i + 1), screen, titleLoc.x + i * Font.textWidth(" "), titleLoc.y, titleColor);
+					if (hasFrame) screen.render(titleLoc.getX() + i * Font.textWidth(" "), titleLoc.getY(), 3 + 21 * 32, 0, 3);
+					Font.draw(title.substring(i, i + 1), screen, titleLoc.getX() + i * Font.textWidth(" "), titleLoc.getY(), titleColor);
 				}
 			}
 		}
@@ -295,7 +295,7 @@ public class Menu {
 			int spaceWidth = Font.textWidth(" ");
 			int leading = typingSearcher.length() * spaceWidth / 2;
 			// int xSearcherBar = titleLoc.x + title.length() * spaceWidth / 3 - title.length() / 2;
-			int xSearcherBar = titleLoc.x + title.length() * 8 / 2 - 16;
+			int xSearcherBar = titleLoc.getX() + title.length() * 8 / 2 - 16;
 
 			if (xSearcherBar - leading < 0) {
 				leading += xSearcherBar - leading;
@@ -303,10 +303,10 @@ public class Menu {
 
 			for (int i = 0; i < typingSearcher.length() + 4; i++) {
 				if (hasFrame) {
-					screen.render(xSearcherBar + spaceWidth * i - leading, titleLoc.y - 8, 3 + 21 * 32, 0, 3);
+					screen.render(xSearcherBar + spaceWidth * i - leading, titleLoc.getY() - 8, 3 + 21 * 32, 0, 3);
 				}
 
-				Font.draw("> " + typingSearcher + " <", screen, xSearcherBar - leading, titleLoc.y - 8, typingSearcher.length() < Menu.LIMIT_TYPING_SEARCHER ? Color.YELLOW : Color.RED);
+				Font.draw("> " + typingSearcher + " <", screen, xSearcherBar - leading, titleLoc.getY() - 8, typingSearcher.length() < Menu.LIMIT_TYPING_SEARCHER ? Color.YELLOW : Color.RED);
 			}
 		}
 
@@ -328,14 +328,14 @@ public class Menu {
 				Point pos = entryPos.positionRect(new Dimension(entry.getWidth(), ListEntry.getHeight()), new Rectangle(entryBounds.getLeft(), y, entryBounds.getWidth(), ListEntry.getHeight(), Rectangle.CORNER_DIMS));
 				boolean selected = idx == selection;
 				if (searcherBarActive && useSearcherBar) {
-					entry.render(screen, pos.x, pos.y, selected, typingSearcher, Color.YELLOW);
+					entry.render(screen, pos.getX(), pos.getY(), selected, typingSearcher, Color.YELLOW);
 				} else {
-					entry.render(screen, pos.x, pos.y, selected);
+					entry.render(screen, pos.getX(), pos.getY(), selected);
 				}
 				if (selected && entry.isSelectable()) {
 					// draw the arrows
-					Font.draw("> ", screen, pos.x - Font.textWidth("> "), y, ListEntry.COL_SLCT);
-					Font.draw(" <", screen, pos.x + entry.getWidth(), y, ListEntry.COL_SLCT);
+					Font.draw("> ", screen, pos.getX() - Font.textWidth("> "), y, ListEntry.COL_SLCT);
+					Font.draw(" <", screen, pos.getX() + entry.getWidth(), y, ListEntry.COL_SLCT);
 				}
 			}
 
@@ -546,20 +546,20 @@ public class Menu {
 					RelPos c = titlePos;
 					int space = SpriteSheet.boxWidth * 2;
 					if (c.yIndex == 0)
-						border.top = space;
+						border.setTop(space);
 					else if (c.yIndex == 2)
-						border.bottom = space;
+						border.setBottom(space);
 					else if (c.xIndex == 0) // must be center left
-						border.left = space;
+						border.setLeft(space);
 					else if (c.xIndex == 2) // must be center right
-						border.right = space;
+						border.setRight(space);
 				}
 			}
 
 			if(menu.isSelectable()) {
 				// add spacing for selection cursors
-				border.left += SpriteSheet.boxWidth * 2;
-				border.right += SpriteSheet.boxWidth * 2;
+				border.setLeft(border.getLeft() + SpriteSheet.boxWidth * 2);
+				border.setRight(border.getRight() + SpriteSheet.boxWidth * 2);
 			}
 
 			if(menu.wrap && menu.displayLength > 0)
@@ -569,7 +569,7 @@ public class Menu {
 			Dimension entrySize;
 
 			if(menuSize == null) {
-				int width = titleDim.width;
+				int width = titleDim.getWidth();
 				for(ListEntry entry: menu.entries) {
 					int entryWidth = entry.getWidth();
 					if(menu.isSelectable() && !entry.isSelectable())
@@ -587,13 +587,13 @@ public class Menu {
 
 					int maxHeight;
 					if(menuPos.yIndex == 0) // anchor is lowest down coordinate (highest y value)
-						maxHeight = anchor.y;
+						maxHeight = anchor.getY();
 					else if(menuPos.yIndex == 2)
-						maxHeight = Screen.h - anchor.y;
+						maxHeight = Screen.h - anchor.getY();
 					else // is centered; take the lowest value of the other two, and double it
-						maxHeight = Math.min(anchor.y, Screen.h - anchor.y) * 2;
+						maxHeight = Math.min(anchor.getY(), Screen.h - anchor.getY()) * 2;
 
-					maxHeight -= border.top + border.bottom; // reserve border space
+					maxHeight -= border.getTop() + border.getBottom(); // reserve border space
 
 					int entryHeight = menu.spacing + ListEntry.getHeight();
 					int totalHeight = entryHeight * menu.entries.size() - menu.spacing;
@@ -610,7 +610,7 @@ public class Menu {
 
 			// set default max display length (needs size first)
 			if(menu.displayLength <= 0 && menu.entries.size() > 0)
-				menu.displayLength = (entrySize.height + menu.spacing) / (ListEntry.getHeight() + menu.spacing);
+				menu.displayLength = (entrySize.getHeight() + menu.spacing) / (ListEntry.getHeight() + menu.spacing);
 
 			// based on the menu centering, and the anchor, determine the upper-left point from which to draw the menu.
 			menu.bounds = menuPos.positionRect(menuSize, anchor, new Rectangle()); // reset to a value that is actually useful to the menu
@@ -620,9 +620,9 @@ public class Menu {
 			menu.titleLoc = titlePos.positionRect(titleDim, menu.bounds);
 
 			if(titlePos.xIndex == 0 && titlePos.yIndex != 1)
-				menu.titleLoc.x += SpriteSheet.boxWidth;
+				menu.titleLoc.setX(menu.titleLoc.getX() + SpriteSheet.boxWidth);
 			if(titlePos.xIndex == 2 && titlePos.yIndex != 1)
-				menu.titleLoc.x -= SpriteSheet.boxWidth;
+				menu.titleLoc.setX(menu.titleLoc.getX() - SpriteSheet.boxWidth);
 
 			// set the menu title color
 			if(menu.title.length() > 0) {

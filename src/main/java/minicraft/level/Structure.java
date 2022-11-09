@@ -36,7 +36,7 @@ public class Structure {
 			 level.setTile(xt+p.x, yt+p.y, p.t);
 
 		for (Point p: furniture.keySet())
-			 level.add(furniture.get(p).clone(), xt+p.x, yt+p.y, true);
+			 level.add(furniture.get(p).clone(), xt + p.getX(), yt + p.getY(), true);
 	}
 
 	public void draw(short[] map, int xt, int yt, int mapWidth) {

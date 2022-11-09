@@ -40,9 +40,10 @@ public enum RelPos {
 
 	/** positions the given rect around the given anchor. The double size is what aligns it to a point rather than a rect. */
 	public Point positionRect(Dimension rectSize, Point anchor) {
-		Rectangle bounds = new Rectangle(anchor.x, anchor.y, rectSize.width*2, rectSize.height*2, Rectangle.CENTER_DIMS);
+		Rectangle bounds = new Rectangle(anchor.getX(), anchor.getY(), rectSize.getWidth() * 2, rectSize.getHeight() * 2, Rectangle.CENTER_DIMS);
 		return positionRect(rectSize, bounds);
 	}
+
 	// the point is returned as a rectangle with the given dimension and the found location, within the provided dummy rectangle.
 	public Rectangle positionRect(Dimension rectSize, Point anchor, Rectangle dummy) {
 		Point pos = positionRect(rectSize, anchor);
@@ -56,8 +57,8 @@ public enum RelPos {
 		Point tlcorner = container.getCenter();
 
 		// this moves the inner box correctly
-		tlcorner.x += ((xIndex -1) * container.getWidth() / 2) - (xIndex * rectSize.width / 2);
-		tlcorner.y += ((yIndex -1) * container.getHeight() / 2) - (yIndex * rectSize.height / 2);
+		tlcorner.setX(tlcorner.getX() + ((xIndex -1) * container.getWidth() / 2) - (xIndex * rectSize.getWidth() / 2));
+		tlcorner.setY(tlcorner.getY() + ((yIndex -1) * container.getHeight() / 2) - (yIndex * rectSize.getHeight() / 2));
 
 		return tlcorner;
 	}

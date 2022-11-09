@@ -361,19 +361,17 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 			// Move while we are not falling.
 			if (onFallDelay <= 0) {
 				// controlInput.buttonPressed is used because otherwise the player will move one even if held down.
-				if (input.getKey("move-up").down) vec.y--;
-				if (input.getKey("move-down").down) vec.y++;
-				if (input.getKey("move-left").down) vec.x--;
-				if (input.getKey("move-right").down) vec.x++;
-
-
+				if (input.getKey("move-up").down) vec.setY(vec.getY() - 1);
+				if (input.getKey("move-down").down) vec.setY(vec.getY() + 1);
+				if (input.getKey("move-left").down) vec.setX(vec.getX() - 1);
+				if (input.getKey("move-right").down) vec.setX(vec.getX() + 1);;
 			}
 
 			// Executes if not saving; and... essentially halves speed if out of stamina.
-			if ((vec.x != 0 || vec.y != 0) && (staminaRechargeDelay % 2 == 0 || isSwimming()) && !Updater.saving) {
+			if ((vec.getX() != 0 || vec.getY() != 0) && (staminaRechargeDelay % 2 == 0 || isSwimming()) && !Updater.saving) {
 				double spd = moveSpeed * (potionEffects.containsKey(PotionType.Speed) ? 1.5D : 1);
-				int xd = (int) (vec.x * spd);
-				int yd = (int) (vec.y * spd);
+				int xd = (int) (vec.getX() * spd);
+				int yd = (int) (vec.getY() * spd);
 
 				Direction newDir = Direction.getDirection(xd, yd);
 				if (newDir == Direction.NONE) newDir = dir;
@@ -546,21 +544,21 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 			Point t = getInteractionTile();
 
 			// If the target coordinates are a valid tile.
-			if (t.x >= 0 && t.y >= 0 && t.x < level.w && t.y < level.h) {
+			if (t.getX() >= 0 && t.getY() >= 0 && t.getX() < level.w && t.getY() < level.h) {
 
 				// Get any entities (except dropped items and particles) on the tile.
-				List<Entity> tileEntities = level.getEntitiesInTiles(t.x, t.y, t.x, t.y, false, ItemEntity.class, Particle.class);
+				List<Entity> tileEntities = level.getEntitiesInTiles(t.getX(), t.getY(), t.getX(), t.getY(), false, ItemEntity.class, Particle.class);
 
 				// If there are no other entities than us on the tile.
 				if (tileEntities.size() == 0 || tileEntities.size() == 1 && tileEntities.get(0) == this) {
-					Tile tile = level.getTile(t.x, t.y);
+					Tile tile = level.getTile(t.getX(), t.getY());
 
 					// If the item successfully interacts with the target tile.
-					if (activeItem.interactOn(tile, level, t.x, t.y, this, attackDir)) {
+					if (activeItem.interactOn(tile, level, t.getX(), t.getY(), this, attackDir)) {
 						done = true;
 
 						// Returns true if the target tile successfully interacts with the item.
-					} else if (tile.interact(level, t.x, t.y, this, activeItem, attackDir)){
+					} else if (tile.interact(level, t.getX(), t.getY(), this, activeItem, attackDir)){
 						done = true;
 					}
 				}
@@ -582,9 +580,9 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 			Point t = getInteractionTile();
 
 			// Check if tile is in bounds of the map.
-			if (t.x >= 0 && t.y >= 0 && t.x < level.w && t.y < level.h) {
-				Tile tile = level.getTile(t.x, t.y);
-				used = tile.hurt(level, t.x, t.y, this, random.nextInt(3) + 1, attackDir) || used;
+			if (t.getX() >= 0 && t.getY() >= 0 && t.getX() < level.w && t.getY() < level.h) {
+				Tile tile = level.getTile(t.getX(), t.getY());
+				used = tile.hurt(level, t.getX(), t.getY(), this, random.nextInt(3) + 1, attackDir) || used;
 			}
 
 			if (used && activeItem instanceof ToolItem)
@@ -769,7 +767,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 		if (activeItem instanceof TileItem) {
 			Point t = getInteractionTile();
 
-			screen.render(t.x * 16 + 4, t.y * 16 + 4, 3 + 4 * 32, 0, 3);
+			screen.render(t.getX() * 16 + 4, t.getY() * 16 + 4, 3 + 4 * 32, 0, 3);
 		}
 
 		// Makes the player white if they have just gotten hurt
@@ -919,20 +917,20 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 		// There are no tiles in the entire map which the player is allowed to stand on. Not likely.
 		if (spawnTilePositions.size() == 0) {
 			spawnPos = new Point(random.nextInt(level.w/4)+level.w*3/8, random.nextInt(level.h/4)+level.h*3/8);
-			level.setTile(spawnPos.x, spawnPos.y, Tiles.get("grass"));
+			level.setTile(spawnPos.getX(), spawnPos.getY(), Tiles.get("grass"));
 		} else { // Gets random valid spawn tile position.
 			spawnPos = spawnTilePositions.get(random.nextInt(spawnTilePositions.size()));
 		}
 
 		if(setSpawn) {
 			// Used to save (tile) coordinates of spawn point outside this method.
-			spawnx = spawnPos.x;
-			spawny = spawnPos.y;
+			spawnx = spawnPos.getX();
+			spawny = spawnPos.getY();
 		}
 
 		// Set (entity) coordinates of player to the center of the tile.
-		this.x = spawnPos.x * 16 + 8; // conversion from tile coords to entity coords.
-		this.y = spawnPos.y * 16 + 8;
+		this.x = spawnPos.getX() * 16 + 8; // conversion from tile coords to entity coords.
+		this.y = spawnPos.getY() * 16 + 8;
 	}
 
 	/**

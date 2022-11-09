@@ -51,8 +51,8 @@ public class FontStyle {
 		Rectangle textBounds = relTextPos.positionRect(size, anchor, new Rectangle());
 
 		if (padX != 0 || padY != 0) {
-			size.width += padX;
-			size.height += padY;
+			size.setWidth(size.getWidth() + padX);
+			size.setHeight(size.getHeight() + padY);
 			Rectangle textBox = relTextPos.positionRect(size, anchor, new Rectangle());
 
 			relLinePos.positionRect(textBounds.getSize(), textBox, textBounds);
@@ -121,7 +121,7 @@ public class FontStyle {
 	/** sets the x position of the text anchor. This causes the text to be left-justified, if alignment is reset. */
 	public FontStyle setXPos(int pos) { return setXPos(pos, true); }
 	public FontStyle setXPos(int pos, boolean resetAlignment) {
-		anchor.x = pos;
+		anchor.setX(pos);
 		if (resetAlignment) {
 			relTextPos = RelPos.getPos(RelPos.RIGHT.xIndex, relTextPos.yIndex);
 			relLinePos = RelPos.getPos(RelPos.LEFT.xIndex, relLinePos.yIndex);
@@ -131,7 +131,7 @@ public class FontStyle {
 	/** sets the y position of the text anchor. This sets the y pos to be the top of the block, if alignment is reset. */
 	public FontStyle setYPos(int pos) { return setYPos(pos, true); }
 	public FontStyle setYPos(int pos, boolean resetAlignment) {
-		anchor.y = pos;
+		anchor.setY(pos);
 		if (resetAlignment) {
 			relTextPos = RelPos.getPos(relTextPos.xIndex, RelPos.BOTTOM.yIndex);
 			relLinePos = RelPos.getPos(relLinePos.xIndex, RelPos.TOP.yIndex);

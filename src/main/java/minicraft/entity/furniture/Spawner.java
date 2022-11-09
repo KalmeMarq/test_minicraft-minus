@@ -117,18 +117,18 @@ public class Spawner extends Furniture {
 		}
 
 		Point pos = new Point(x >> 4, y >> 4);
-		Point[] areaPositions = level.getAreaTilePositions(pos.x, pos.y, 1);
+		Point[] areaPositions = level.getAreaTilePositions(pos.getX(), pos.getY(), 1);
 		ArrayList<Point> validPositions = new ArrayList<>();
 		for (Point p: areaPositions)
-			if (!( !level.getTile(p.x, p.y).mayPass(level, p.x, p.y, newmob) || mob instanceof EnemyMob && level.getTile(p.x, p.y).getLightRadius(level, p.x, p.y) > 0 ))
+			if (!( !level.getTile(p.getX(), p.getY()).mayPass(level, p.getX(), p.getY(), newmob) || mob instanceof EnemyMob && level.getTile(p.getX(), p.getY()).getLightRadius(level, p.getX(), p.getY()) > 0 ))
 				validPositions.add(p);
 
 		if(validPositions.size() == 0) return; // Cannot spawn mob.
 
 		Point spawnPos = validPositions.get(random.nextInt(validPositions.size()));
 
-		newmob.x = spawnPos.x << 4;
-		newmob.y = spawnPos.y << 4;
+		newmob.x = spawnPos.getX() << 4;
+		newmob.y = spawnPos.getY() << 4;
 
 		level.add(newmob);
 		Sound.monsterHurt.play();
