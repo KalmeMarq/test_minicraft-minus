@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class Spawner extends Furniture {
-
 	private final Random rnd = new Random();
 
 	private static final int ACTIVE_RADIUS = 8*16;

@@ -25,7 +25,6 @@ public class Network extends Game {
 
 	private static VersionInfo latestVersion = null;
 
-
 	@Nullable
 	public static VersionInfo getLatestVersion() { return latestVersion; }
 
@@ -90,6 +89,4 @@ public class Network extends Game {
 
 		return true;
 	}
-
-
 }

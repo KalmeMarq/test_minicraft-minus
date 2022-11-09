@@ -12,9 +12,8 @@ import minicraft.util.Logging;
 /** @deprecated As multiplayer mode removed. This class is not localized. */
 @Deprecated
 public class MultiplayerDisplay extends Display {
-
 	private static final String domain = "https://playminicraft.com";
-	private static final String apiDomain = domain+"/api";
+	private static final String apiDomain = domain + "/api";
 
 	public static String savedIP = "";
 	public static String savedUUID = "";
@@ -34,7 +33,11 @@ public class MultiplayerDisplay extends Display {
 	private Ellipsis ellipsis = new SequentialEllipsis();
 
 	private enum State {
-		WAITING, LOGIN, ENTERIP, LOADING, ERROR
+		WAITING,
+        LOGIN,
+        ENTERIP,
+        LOADING,
+        ERROR
 	}
 
 	private State curState;

@@ -9,10 +9,10 @@ import minicraft.level.Level;
 
 public class SaplingTile extends Tile {
 	private static Sprite sprite = new Sprite(12, 1, 1);
-	
+
 	private Tile onType;
 	private Tile growsTo;
-	
+
 	protected SaplingTile(String name, Tile onType, Tile growsTo) {
 		super(name, sprite);
 		this.onType = onType;
@@ -25,7 +25,7 @@ public class SaplingTile extends Tile {
 
 	public void render(Screen screen, Level level, int x, int y) {
 		onType.render(screen, level, x, y);
-		
+
 		sprite.render(screen, x * 16, y * 16);
 	}
 

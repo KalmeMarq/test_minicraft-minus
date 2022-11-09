@@ -7,7 +7,6 @@ import minicraft.core.io.Sound;
 import minicraft.gfx.Font;
 
 public class SelectEntry extends ListEntry {
-
 	private Action onSelect;
 	private String text;
 	private boolean localize;

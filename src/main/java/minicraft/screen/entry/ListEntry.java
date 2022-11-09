@@ -8,7 +8,6 @@ import minicraft.gfx.Font;
 import minicraft.gfx.Screen;
 
 public abstract class ListEntry {
-
 	public static final int COL_UNSLCT = Color.GRAY;
 	public static final int COL_SLCT = Color.WHITE;
 

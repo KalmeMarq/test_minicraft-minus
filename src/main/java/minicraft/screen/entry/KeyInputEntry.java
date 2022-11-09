@@ -9,7 +9,6 @@ import minicraft.gfx.Font;
 import minicraft.gfx.Screen;
 
 public class KeyInputEntry extends SelectEntry {
-
 	private String action, mapping, buffer;
 
 	public KeyInputEntry(String key, Set<String> duplicated) {

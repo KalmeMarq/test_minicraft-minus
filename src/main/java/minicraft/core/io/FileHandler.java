@@ -42,7 +42,6 @@ public class FileHandler extends Game {
 		localGameDir = "/" + local;
 	}
 
-
 	/**
 	 * Determines the path the game will use to store worlds, settings, resource packs, etc.
 	 * If saveDir is not null, use it as the game directory. Otherwise use the default path.
@@ -90,11 +89,11 @@ public class FileHandler extends Game {
 	}
 
 	public static String getSystemGameDir() {
-		    return systemGameDir;
+        return systemGameDir;
 	}
 
 	public static String getLocalGameDir() {
-		    return localGameDir;
+        return localGameDir;
 	}
 
 	private static void deleteFolder(File top) {
@@ -148,8 +147,8 @@ public class FileHandler extends Game {
 			}
 		});
 
-		if (deleteOriginal)
-			deleteFolder(origFolder.toFile());
+		if (deleteOriginal) {
+            deleteFolder(origFolder.toFile());
+        }
 	}
-
 }

@@ -20,7 +20,6 @@ import minicraft.screen.AchievementsDisplay;
 import minicraft.screen.QuestsDisplay;
 
 public class TreeTile extends Tile {
-
 	protected TreeTile(String name) {
 		super(name, (ConnectorSprite)null);
 		connectsToGrass = true;

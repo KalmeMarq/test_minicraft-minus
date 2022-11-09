@@ -12,7 +12,6 @@ import minicraft.level.tile.Tile;
 import minicraft.level.tile.Tiles;
 
 public class EnemyMob extends MobAi {
-
 	public int lvl;
 	protected MobSprite[][][] lvlSprites;
 	public int detectDist;

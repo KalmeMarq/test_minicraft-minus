@@ -12,7 +12,6 @@ import minicraft.level.tile.Tile;
 import minicraft.level.tile.Tiles;
 
 public abstract class Mob extends Entity {
-
 	protected MobSprite[][] sprites; // This contains all the mob's sprites, sorted first by direction (index corresponding to the dir variable), and then by walk animation state.
 	public int walkDist = 0; // How far we've walked currently, incremented after each movement. This is used to change the sprite; "(walkDist >> 3) & 1" switches between a value of 0 and 1 every 8 increments of walkDist.
 

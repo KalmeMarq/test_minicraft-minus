@@ -9,7 +9,6 @@ import minicraft.gfx.SpriteSheet;
 import minicraft.screen.entry.StringEntry;
 
 public class InfoDisplay extends Display {
-
 	public InfoDisplay() {
 		//noinspection SuspiciousNameCombination
 		super(new Menu.Builder(true, 4, RelPos.LEFT, StringEntry.useLines(

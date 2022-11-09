@@ -8,7 +8,6 @@ import org.jetbrains.annotations.Nullable;
 import minicraft.util.Logging;
 
 public class Items {
-
 	// I've checked -- this is only used for making the creative inventory, and in Load.java.
 	// ...well, that used to be true...
 

@@ -19,6 +19,7 @@ public class FarmTile extends Tile {
     public FarmTile(String name) {
         super(name, sprite);
     }
+
     protected FarmTile(String name, Sprite sprite) {
         super(name, sprite);
     }

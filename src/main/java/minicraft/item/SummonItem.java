@@ -13,7 +13,6 @@ import org.tinylog.Logger;
 import java.util.ArrayList;
 
 public class SummonItem extends StackableItem {
-
 	protected static ArrayList<Item> getAllInstances() {
 		ArrayList<Item> items = new ArrayList<>();
 

@@ -60,12 +60,13 @@ public class Skeleton extends EnemyMob {
 		int bookcount = random.nextInt(1) + 1;
 		int rand = random.nextInt(diffrands[diff]);
 
-		if (rand <= diffvals[diff])
-			level.dropItem(x, y, count, Items.get("bone"), Items.get("arrow"));
-		else if (diff == 0 && rand >= 19) // Rare chance of 10 arrows on easy mode
+		if (rand <= diffvals[diff]) {
+            level.dropItem(x, y, count, Items.get("bone"), Items.get("arrow"));
+        } else if (diff == 0 && rand >= 19) { // Rare chance of 10 arrows on easy mode
 			level.dropItem(x, y, 10, Items.get("arrow"));
-		else
+        } else {
 			level.dropItem(x, y, bookcount, Items.get("Antidious"), Items.get("arrow"));
+        }
 
 		super.die();
 	}

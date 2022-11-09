@@ -5,7 +5,6 @@ import minicraft.level.Level;
 import minicraft.level.tile.Tiles;
 
 public class WheatTile extends PlantTile {
-
 	public WheatTile(String name) {
 		super(name);
 	}

@@ -16,7 +16,6 @@ import minicraft.level.tile.Tiles;
 import org.tinylog.Logger;
 
 public class TileItem extends StackableItem {
-
 	protected static ArrayList<Item> getAllInstances() {
 		ArrayList<Item> items = new ArrayList<>();
 

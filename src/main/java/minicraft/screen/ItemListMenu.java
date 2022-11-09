@@ -4,7 +4,6 @@ import minicraft.gfx.Point;
 import minicraft.screen.entry.ItemEntry;
 
 class ItemListMenu extends Menu {
-	
 	static Builder getBuilder() {
 		return new Builder(true, 0, RelPos.LEFT)
 			.setPositioning(new Point(9, 9), RelPos.BOTTOM_RIGHT)
@@ -13,7 +12,7 @@ class ItemListMenu extends Menu {
 			.setScrollPolicies(1, false)
 			.setSearcherBar(true);
 	}
-	
+
 	protected ItemListMenu(Builder b, ItemEntry[] entries, String title) {
 		super(b
 			.setEntries(entries)
@@ -21,7 +20,7 @@ class ItemListMenu extends Menu {
 			.createMenu()
 		);
 	}
-	
+
 	protected ItemListMenu(ItemEntry[] entries, String title) {
 		this(getBuilder(), entries, title);
 	}

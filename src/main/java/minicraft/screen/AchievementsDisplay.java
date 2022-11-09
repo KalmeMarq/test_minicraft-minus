@@ -29,7 +29,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AchievementsDisplay extends Display {
-
     private static final HashMap<String, Achievement> achievements = new HashMap<>();
 
     private static Achievement selectedAchievement;

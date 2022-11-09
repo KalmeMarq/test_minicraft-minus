@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class CraftingDisplay extends Display {
-
 	private Player player;
 	private Recipe[] recipes;
 

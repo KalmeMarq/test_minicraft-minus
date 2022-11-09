@@ -15,7 +15,6 @@ import minicraft.gfx.Screen;
 import minicraft.saveload.Save;
 
 public class LoadingDisplay extends Display {
-
 	private static float percentage = 0;
 	private static String progressType = "";
 

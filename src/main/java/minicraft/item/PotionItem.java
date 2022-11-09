@@ -10,7 +10,6 @@ import minicraft.level.tile.Tile;
 import minicraft.screen.AchievementsDisplay;
 
 public class PotionItem extends StackableItem {
-
 	protected static ArrayList<Item> getAllInstances() {
 		ArrayList<Item> items = new ArrayList<>();
 

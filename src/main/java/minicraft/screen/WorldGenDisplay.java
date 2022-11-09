@@ -16,7 +16,6 @@ import java.util.OptionalLong;
 import java.util.regex.Pattern;
 
 public class WorldGenDisplay extends Display {
-
 	private static final String worldNameRegex = "[a-zA-Z0-9 ]+";
 
 	private static InputEntry worldSeed = new InputEntry("minicraft.displays.world_gen.world_seed", "[-!\"#%/()=+,a-zA-Z0-9]+", 20);

@@ -1,6 +1,5 @@
 package minicraft.entity.furniture;
 
-import minicraft.core.Game;
 import minicraft.core.io.Sound;
 import minicraft.entity.Direction;
 import minicraft.entity.Entity;
@@ -13,9 +12,7 @@ import minicraft.item.PowerGloveItem;
 import org.jetbrains.annotations.Nullable;
 
 /** Many furniture classes are very similar; they might not even need to be there at all... */
-
 public class Furniture extends Entity {
-
 	protected int pushTime = 0, multiPushTime = 0; // Time for each push; multi is for multiplayer, to make it so not so many updates are sent.
 	private Direction pushDir = Direction.NONE; // The direction to push the furniture
 	public Sprite sprite;

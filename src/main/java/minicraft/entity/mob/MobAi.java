@@ -13,8 +13,9 @@ import minicraft.item.PotionType;
 import minicraft.level.Level;
 
 public abstract class MobAi extends Mob {
-
-	int randomWalkTime, randomWalkChance, randomWalkDuration;
+	int randomWalkTime;
+    int randomWalkChance;
+    int randomWalkDuration;
 	int xmov, ymov;
 	private int lifetime;
 	protected int age = 0; // Not private because it is used in Sheep.java.

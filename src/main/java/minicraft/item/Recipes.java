@@ -3,7 +3,6 @@ package minicraft.item;
 import java.util.ArrayList;
 
 public class Recipes {
-
 	public static final ArrayList<Recipe> anvilRecipes = new ArrayList<>();
 	public static final ArrayList<Recipe> ovenRecipes = new ArrayList<>();
 	public static final ArrayList<Recipe> furnaceRecipes = new ArrayList<>();

@@ -10,7 +10,6 @@ import minicraft.entity.mob.Mob;
 import minicraft.gfx.Sprite;
 
 public class ToolItem extends Item {
-
 	protected static ArrayList<Item> getAllInstances() {
 		ArrayList<Item> items = new ArrayList<>();
 

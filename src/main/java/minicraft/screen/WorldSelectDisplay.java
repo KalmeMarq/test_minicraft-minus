@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class WorldSelectDisplay extends Display {
-
 	private static final ArrayList<String> worldNames = new ArrayList<>();
 	private static final ArrayList<Version> worldVersions = new ArrayList<>();
 

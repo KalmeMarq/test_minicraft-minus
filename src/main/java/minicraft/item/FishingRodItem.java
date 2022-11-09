@@ -12,7 +12,6 @@ import minicraft.level.tile.Tile;
 import minicraft.level.tile.Tiles;
 
 public class FishingRodItem extends Item {
-
     protected static ArrayList<Item> getAllInstances() {
         ArrayList<Item> items = new ArrayList<>();
 

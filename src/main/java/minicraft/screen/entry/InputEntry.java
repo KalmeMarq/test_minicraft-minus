@@ -8,7 +8,6 @@ import minicraft.gfx.Screen;
 import minicraft.core.io.ClipboardHandler;
 
 public class InputEntry extends ListEntry {
-
 	private String prompt;
 	private String regex;
 	private int maxLength;

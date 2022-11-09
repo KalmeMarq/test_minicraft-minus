@@ -25,7 +25,6 @@ import org.tinylog.Logger;
 
 /// This class is simply a way to seperate all the old, compatibility complications into a seperate file.
 public class LegacyLoad {
-
 	String location = Game.gameDir;
 
 	private static final String extension = Save.extension;

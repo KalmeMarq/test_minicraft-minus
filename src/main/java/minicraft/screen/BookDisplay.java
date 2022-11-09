@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class BookDisplay extends Display {
-
 	// null characters "\0" denote page breaks.
 	private static final String defaultBook = "This book has no text.";
 

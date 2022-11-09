@@ -12,7 +12,6 @@ import minicraft.level.tile.Tile;
 import java.util.ArrayList;
 
 public class FurnitureItem extends Item {
-
 	protected static ArrayList<Item> getAllInstances() {
 		ArrayList<Item> items = new ArrayList<>();
 

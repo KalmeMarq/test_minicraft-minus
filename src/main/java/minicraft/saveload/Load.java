@@ -23,7 +23,6 @@ import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.tinylog.Logger;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -32,7 +31,6 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Load {
-
 	private String location = Game.gameDir;
 
 	private static final String extension = Save.extension;

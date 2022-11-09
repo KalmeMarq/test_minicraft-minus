@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 public class Save {
-
 	public String location = Game.gameDir;
 	File folder;
 

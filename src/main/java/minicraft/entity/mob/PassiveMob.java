@@ -60,11 +60,11 @@ public class PassiveMob extends MobAi {
 	 * @return true if the mob can spawn here, false if not.
 	 */
 	public static boolean checkStartPos(Level level, int x, int y) {
-
 		int r = (Game.isMode("minicraft.settings.mode.score") ? 22 : 15) + (Updater.getTime() == Updater.Time.Night ? 0 : 5); // Get no-mob radius by
 
-		if (!MobAi.checkStartPos(level, x, y, 80, r))
+		if (!MobAi.checkStartPos(level, x, y, 80, r)) {
 			return false;
+        }
 
 		Tile tile = level.getTile(x >> 4, y >> 4);
 		return tile == Tiles.get("grass") || tile == Tiles.get("flower");

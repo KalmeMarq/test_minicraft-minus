@@ -12,7 +12,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.*;
 
 public class Menu {
-
 	private static final int LIMIT_TYPING_SEARCHER = 22;
 
 	@NotNull

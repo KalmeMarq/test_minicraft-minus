@@ -8,7 +8,6 @@ import minicraft.item.StackableItem;
 import minicraft.screen.entry.ItemEntry;
 
 class InventoryMenu extends ItemListMenu {
-
 	private final Inventory inv;
 	private final Entity holder;
 	protected boolean creativeInv = false;

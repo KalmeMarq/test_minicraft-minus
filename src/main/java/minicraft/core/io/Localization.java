@@ -30,7 +30,6 @@ import org.json.JSONObject;
 import org.tinylog.Logger;
 
 public class Localization {
-
 	public static final Locale DEFAULT_LOCALE = Locale.US;
 
 	private static final HashSet<String> knownUnlocalizedStrings = new HashSet<>();

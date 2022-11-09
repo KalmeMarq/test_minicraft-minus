@@ -11,7 +11,6 @@ import minicraft.level.tile.Tile;
 import minicraft.level.tile.Tiles;
 
 public class BucketItem extends StackableItem {
-
 	public enum Fill {
 		Empty (Tiles.get("hole"), 2),
 		Water (Tiles.get("water"), 0),

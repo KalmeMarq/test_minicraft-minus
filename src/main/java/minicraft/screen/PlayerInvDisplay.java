@@ -13,7 +13,6 @@ import minicraft.item.Items;
 import minicraft.item.StackableItem;
 
 public class PlayerInvDisplay extends Display {
-
 	private static final int padding = 10;
 
 	private final Player player;

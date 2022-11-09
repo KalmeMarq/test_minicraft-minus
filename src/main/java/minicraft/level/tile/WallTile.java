@@ -18,7 +18,6 @@ import minicraft.item.ToolItem;
 import minicraft.level.Level;
 
 public class WallTile extends Tile {
-
 	private static final String obrickMsg = "minicraft.notification.defeat_air_wizard_first";
 	protected Material type;
 	private ConnectorSprite sprite;

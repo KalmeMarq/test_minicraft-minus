@@ -24,30 +24,29 @@ public class SandTile extends Tile {
 		pixels[1][1] = new Sprite.Px(9, 8, 0, 1);
 		steppedOn = new Sprite(pixels);
 	}
-	
-	private ConnectorSprite sprite = new ConnectorSprite(SandTile.class, new Sprite(6, 6, 3, 3, 1), normal)
-	{
+
+	private ConnectorSprite sprite = new ConnectorSprite(SandTile.class, new Sprite(6, 6, 3, 3, 1), normal) {
 		public boolean connectsTo(Tile tile, boolean isSide) {
 			if(!isSide) return true;
 			return tile.connectsToSand;
 		}
 	};
-	
+
 	protected SandTile(String name) {
 		super(name, (ConnectorSprite)null);
 		csprite = sprite;
 		connectsToSand = true;
 		maySpawn = true;
 	}
-	
+
 	public void render(Screen screen, Level level, int x, int y) {
 		boolean steppedOn = level.getData(x, y) > 0;
-		
+
 		if(steppedOn) csprite.full = SandTile.steppedOn;
 		else csprite.full = SandTile.normal;
 
 		csprite.sparse.color = DirtTile.dCol(level.depth);
-		
+
 		csprite.render(screen, level, x, y);
 	}
 

@@ -8,7 +8,6 @@ import minicraft.screen.entry.ArrayEntry;
 import org.jetbrains.annotations.Nullable;
 
 public class Display {
-
 	private Display parent = null;
 
 	protected Menu[] menus;

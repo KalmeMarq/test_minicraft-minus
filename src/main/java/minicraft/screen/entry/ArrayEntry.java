@@ -8,7 +8,6 @@ import minicraft.core.io.Sound;
 import minicraft.gfx.Font;
 
 public class ArrayEntry<T> extends ListEntry {
-
 	private String label;
 	private T[] options;
 	private boolean[] optionVis;

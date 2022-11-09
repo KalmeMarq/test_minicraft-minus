@@ -12,7 +12,6 @@ import minicraft.item.ToolType;
 import minicraft.level.Level;
 
 public class WoolTile extends Tile {
-
 	public WoolTile(WoolType woolType) {
 		super(woolType.name, woolType.sprite);
 	}

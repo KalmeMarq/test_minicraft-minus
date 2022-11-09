@@ -12,7 +12,6 @@ import java.io.*;
 import minicraft.core.CrashHandler;
 
 public final class ClipboardHandler implements ClipboardOwner {
-
     @Override
 	public void lostOwnership(Clipboard clipboard, Transferable contents) { }
 

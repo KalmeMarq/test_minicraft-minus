@@ -62,8 +62,9 @@ public class Slime extends EnemyMob {
 		if (jumpTime > 0) {
 			walkDist = 8; // Set to jumping sprite.
 			y -= 4; // Raise up a bit.
-		}
-		else walkDist = 0; // Set to ground sprite.
+		} else {
+            walkDist = 0; // Set to ground sprite.
+        }
 
 		dir = Direction.DOWN;
 

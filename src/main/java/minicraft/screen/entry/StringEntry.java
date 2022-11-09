@@ -10,7 +10,6 @@ import minicraft.gfx.Screen;
 
 // an unselectable line.
 public class StringEntry extends ListEntry {
-
 	private static final int DEFAULT_COLOR = Color.WHITE;
 
 	private String text;
@@ -22,6 +21,7 @@ public class StringEntry extends ListEntry {
 	public static StringEntry[] useLines(String... lines) {
 		return useLines(DEFAULT_COLOR, lines);
 	}
+
 	public static StringEntry[] useLines(int color, String... lines) { return useLines(color, true, lines); }
 	public static StringEntry[] useLines(int color, boolean localize, String... lines) {
 		ArrayList<String> lns = new ArrayList<>();

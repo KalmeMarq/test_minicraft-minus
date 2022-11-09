@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class PauseDisplay extends Display {
-
 	public PauseDisplay() {
 		String upString = Localization.getLocalized("minicraft.displays.pause.display.help.scroll", Game.input.getMapping("cursor-up"), Game.input.getMapping("cursor-down"));
 		String selectString = Localization.getLocalized("minicraft.displays.pause.display.help.choose", Game.input.getMapping("select"));

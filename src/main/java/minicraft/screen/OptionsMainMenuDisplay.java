@@ -7,7 +7,6 @@ import minicraft.saveload.Save;
 import minicraft.screen.entry.SelectEntry;
 
 public class OptionsMainMenuDisplay extends Display {
-
     public OptionsMainMenuDisplay() {
         super(true);
 

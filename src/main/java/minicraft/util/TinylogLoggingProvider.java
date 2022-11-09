@@ -26,7 +26,6 @@ import minicraft.util.TinylogLoggingConfiguration.WriterConfig;
 
 /** Originally copied from {@link org.tinylog.core.TinylogLoggingProvider} */
 public class TinylogLoggingProvider implements LoggingProvider {
-
 	private final TinylogContextProvider context;
 	private final WritingThread writingThread;
 	private final HashMap<Writer, WriterConfig> writers;

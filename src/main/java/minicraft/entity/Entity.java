@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Random;
 
 public abstract class Entity implements Tickable {
-
 	/* I guess I should explain something real quick. The coordinates between tiles and entities are different.
 	 * The world coordinates for tiles is 128x128
 	 * The world coordinates for entities is 2048x2048
@@ -271,6 +270,7 @@ public abstract class Entity implements Tickable {
 	}
 
 	public String toString() { return getClass().getSimpleName() + getDataPrints(); }
+
 	protected List<String> getDataPrints() {
 		List<String> prints = new ArrayList<>();
 		prints.add("eid=" + eid);

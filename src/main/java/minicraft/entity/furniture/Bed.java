@@ -10,7 +10,6 @@ import minicraft.gfx.Sprite;
 import minicraft.level.Level;
 
 public class Bed extends Furniture {
-
 	private static int playersAwake = 1;
 	private static final HashMap<Player, Bed> sleepingPlayers = new HashMap<>();
 
@@ -90,7 +89,6 @@ public class Bed extends Furniture {
 		}
 
 		sleepingPlayers.clear();
-
 
 		playersAwake = 1;
 	}

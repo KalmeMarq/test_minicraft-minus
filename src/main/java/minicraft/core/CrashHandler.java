@@ -101,6 +101,7 @@ public class CrashHandler {
 
 	public static void errorHandle(Throwable throwable) { errorHandle(throwable, new ErrorInfo()); }
 	public static void errorHandle(Throwable throwable, ErrorInfo info) { errorHandle(throwable, info, null); }
+
 	/** This handles application crashing errors by giving notification to the user clearly.<br>
 	 * The user can ignore the error, continue handling the error or exit the program (only in serious errors or error reports).
 	 * @param handling The handling function of the error. */
@@ -189,6 +190,7 @@ public class CrashHandler {
 		panel.add(buttonPanel, BorderLayout.SOUTH);
 		return panel;
 	}
+
 	private static JPanel getErrorPanel(ErrorInfo info, JScrollPane errorPane, JDialog dialog, String stackTrace, Action callback, Future<HttpResponse<Empty>> ping) {
 		JPanel panel = new JPanel(new BorderLayout());
 		panel.add(errorPane);
@@ -249,8 +251,9 @@ public class CrashHandler {
 		public final boolean serious;
 
 		public ErrorInfo() { this(false); }
-		public ErrorInfo(boolean crashing) { this(crashing ? "General Application Crash" : "General Application Error",
-			crashing ? ErrorType.DEFAULT : ErrorType.REPORT); }
+		public ErrorInfo(boolean crashing) {
+            this(crashing ? "General Application Crash" : "General Application Error", crashing ? ErrorType.DEFAULT : ErrorType.REPORT);
+        }
 		public ErrorInfo(String topic) { this(topic, ErrorType.DEFAULT); }
 		public ErrorInfo(String topic, ErrorType type) { this(topic, type, type.exitCode != 0); }
 		public ErrorInfo(String topic, ErrorType type, boolean serious) { this(topic, type, serious, null); }

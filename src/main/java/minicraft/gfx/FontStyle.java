@@ -7,7 +7,6 @@ import org.tinylog.Logger;
 import minicraft.screen.RelPos;
 
 public class FontStyle {
-
 	/// this specifies the x and y offsets for each binary value in the "shadow location byte", and is what causes each value to progress in a circle.
 	private static int[] shadowPosMap = {	 0,  1,  1,  1,  0, -1, -1, -1,
 										-1, -1,  0,  1,  1,  1,  0, -1};
@@ -40,9 +39,7 @@ public class FontStyle {
 		/// By default, the styling is set so as to center the text in the middle of the screen, with no shadow.
 	}
 
-
 	// TODO make a constructor that takes another FontStyle and just copies all the protected fields.
-
 
 	/// Actually draws the text.
 	public void draw(String msg, Screen screen) {

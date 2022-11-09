@@ -9,14 +9,12 @@ import org.tinylog.Logger;
 
 import minicraft.core.Game;
 import minicraft.core.io.Localization;
-import minicraft.screen.BookDisplay;
 import minicraft.screen.Menu;
 import minicraft.screen.PopupDisplay;
 import minicraft.screen.RelPos;
 import minicraft.screen.TempDisplay;
 
 public class LinkEntry extends SelectEntry {
-
 	private static boolean checkedDesktop = false;
 	private static Desktop desktop = null;
 	private static boolean canBrowse = false;

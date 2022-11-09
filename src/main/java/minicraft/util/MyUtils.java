@@ -1,7 +1,6 @@
 package minicraft.util;
 
 public final class MyUtils {
-
 	private MyUtils() {}
 
 	public static int clamp(int val, int min, int max) {
