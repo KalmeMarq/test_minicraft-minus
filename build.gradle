@@ -22,7 +22,6 @@ repositories {
 
 dependencies {
     implementation 'org.jetbrains:annotations:23.0.0'
-    implementation 'org.json:json:20220320'
     implementation 'com.konghq:unirest-java:3.13.10'
     implementation 'org.tinylog:tinylog-api:2.4.1'
     implementation 'org.tinylog:tinylog-impl:2.4.1'
