@@ -87,7 +87,7 @@ public class DungeonChest extends Chest {
 		inv.clearInv();
 
 		// Populate inventory.
-		populateInvRandom("dungeonchest", 0);
+		populateInvRandom("dungeon_chest", 0);
 	}
 
 	public boolean isLocked() {

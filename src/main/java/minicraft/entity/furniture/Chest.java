@@ -9,12 +9,16 @@ import minicraft.gfx.Sprite;
 import minicraft.item.Inventory;
 import minicraft.item.Item;
 import minicraft.item.Items;
-import minicraft.saveload.Load;
 import minicraft.screen.ContainerDisplay;
 import org.jetbrains.annotations.Nullable;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-import java.io.IOException;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Chest extends Furniture implements ItemHolder {
 	private Inventory inventory; // Inventory of the chest
@@ -38,24 +42,38 @@ public class Chest extends Furniture implements ItemHolder {
 	}
 
 	public void populateInvRandom(String lootTable, int depth) {
-		try {
-			String[] lines = Load.loadFile("/resources/chestloot/" + lootTable + ".txt").toArray(new String[]{});
+		try (InputStream stream = Game.class.getResourceAsStream("/resources/chestloot/" + lootTable  + ".json")) {
+            if (stream != null) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+                String chestJson = reader.lines().collect(Collectors.joining("\n"));
 
-			for (String line : lines) {
-				//System.out.println(line);
-				String[] data = line.split(",");
-				if (!line.startsWith(":")) {
-					inventory.tryAdd(Integer.parseInt(data[0]), Items.get(data[1]), data.length < 3 ? 1 : Integer.parseInt(data[2]));
-				} else if (inventory.invSize() == 0) {
-					// Adds the "fallback" items to ensure there's some stuff
-					String[] fallbacks = line.substring(1).split(":");
-					for (String item : fallbacks) {
-						inventory.add(Items.get(item.split(",")[0]), Integer.parseInt(item.split(",")[1]));
-					}
-				}
-			}
-		} catch (IOException e) {
-			CrashHandler.errorHandle(e, new CrashHandler.ErrorInfo("Loot table", CrashHandler.ErrorInfo.ErrorType.REPORT, "Couldn't read loot table \"" + lootTable + ".txt" + "\""));
+                JSONObject json = new JSONObject(chestJson);
+
+                JSONArray loot = json.getJSONArray("loot");
+
+                for (Object object : loot) {
+                    JSONObject obj = (JSONObject) object;
+                    Item item = Items.get(obj.getString("item"));
+                    int amount = obj.has("amount") ? obj.getInt("amount") : 1;
+                    int chance = obj.getInt("chance");
+
+                    inventory.tryAdd(chance, item, amount);
+                }
+
+                if (inventory.invSize() == 0) {
+                    JSONArray fallback = json.getJSONArray("fallback");
+
+                    for (Object object : fallback) {
+                        JSONObject obj = (JSONObject) object;
+                        Item item = Items.get(obj.getString("item"));
+                        int amount = obj.has("amount") ? obj.getInt("amount") : 1;
+
+                        inventory.add(item, amount);
+                    }
+                }
+            }
+		} catch (Exception e) {
+			CrashHandler.errorHandle(e, new CrashHandler.ErrorInfo("Loot table", CrashHandler.ErrorInfo.ErrorType.REPORT, "Couldn't read loot table \"" + lootTable + ".json" + "\""));
 		}
 	}
 

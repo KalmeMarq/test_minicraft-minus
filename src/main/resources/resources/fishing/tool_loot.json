@@ -1,0 +1,24 @@
+{
+  "loot": [
+    {
+      "item": ["wood pickaxe", "wood axe", "wood shovel"],
+      "chance": 50
+    },
+    {
+      "item": ["rock pickaxe", "rock axe", "rock shovel"],
+      "chance": 50
+    },
+    {
+      "item": ["iron pickaxe", "iron axe", "iron shovel"],
+      "chance": 25
+    },
+    {
+      "item": ["gold pickaxe", "gold axe", "gold shovel"],
+      "chance": 25
+    },
+    {
+      "item": ["gem pickaxe", "gem axe", "gem shovel"],
+      "chance": 25
+    }
+  ]
+}

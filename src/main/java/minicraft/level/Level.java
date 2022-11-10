@@ -895,7 +895,7 @@ public class Level {
 					 Chest c = new Chest();
 					 int chance = -depth;
 
-					 c.populateInvRandom("minidungeon", chance);
+					 c.populateInvRandom("mini_dungeon", chance);
 
 					 add(c, sp.x - 16 + rpt * 32, sp.y - 16);
 				}
@@ -953,7 +953,7 @@ public class Level {
 						// Add a chest to some of the houses
 						if (hasChest) {
 							Chest c = new Chest();
-							c.populateInvRandom("villagehouse", 1);
+							c.populateInvRandom("village_house", 1);
 							add(c, (x + random.nextInt(2) + xo) << 4, (y + random.nextInt(2) + yo) << 4);
 						}
 					}

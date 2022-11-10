@@ -1,0 +1,138 @@
+{
+  "loot": [
+    {
+      "item": "steak",
+      "chance": 5,
+      "amount": 6
+    },
+    {
+      "item": "cooked pork",
+      "chance": 5,
+      "amount": 6
+    },
+    {
+      "item": "wood",
+      "chance": 4,
+      "amount": 20
+    },
+    {
+      "item": "wool",
+      "chance": 4,
+      "amount": 12
+    },
+    {
+      "item": "coal",
+      "chance": 2,
+      "amount": 4
+    },
+    {
+      "item": "gem",
+      "chance": 5,
+      "amount": 7
+    },
+    {
+      "item": "gem",
+      "chance": 5,
+      "amount": 8
+    },
+    {
+      "item": "gem armor",
+      "chance": 8
+    },
+    {
+      "item": "gold armor",
+      "chance": 6
+    },
+    {
+      "item": "iron armor",
+      "chance": 5,
+      "amount": 2
+    },
+    {
+      "item": "potion",
+      "chance": 3,
+      "amount": 10
+    },
+    {
+      "item": "speed potion",
+      "chance": 4,
+      "amount": 2
+    },
+    {
+      "item": "speed potion",
+      "chance": 6,
+      "amount": 5
+    },
+    {
+      "item": "light potion",
+      "chance": 3,
+      "amount": 2
+    },
+    {
+      "item": "light potion",
+      "chance": 4,
+      "amount": 3
+    },
+    {
+      "item": "regen potion",
+      "chance": 7
+    },
+    {
+      "item": "energy potion",
+      "chance": 7
+    },
+    {
+      "item": "time potion",
+      "chance": 14
+    },
+    {
+      "item": "shield potion",
+      "chance": 14
+    },
+    {
+      "item": "lava potion",
+      "chance": 7
+    },
+    {
+      "item": "haste potion",
+      "chance": 5,
+      "amount": 3
+    },
+    {
+      "item": "gold bow",
+      "chance": 6
+    },
+    {
+      "item": "gem bow",
+      "chance": 7
+    },
+    {
+      "item": "gold sword",
+      "chance": 4
+    },
+    {
+      "item": "gem sword",
+      "chance": 7
+    },
+    {
+      "item": "rock claymore",
+      "chance": 4
+    },
+    {
+      "item": "iron claymore",
+      "chance": 6
+    }
+  ],
+  "fallback": [
+    {
+      "item": "steak",
+      "amount": 6
+    },
+    {
+      "item": "time potion"
+    },
+    {
+      "item": "gem axe"
+    }
+  ]
+}

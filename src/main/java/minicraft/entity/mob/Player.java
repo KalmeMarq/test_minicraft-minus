@@ -15,6 +15,9 @@ import minicraft.entity.particle.Particle;
 import minicraft.entity.particle.TextParticle;
 import minicraft.gfx.*;
 import minicraft.item.*;
+import minicraft.item.FishingData.FishingLoot;
+import minicraft.item.FishingData.FishingLootItem;
+import minicraft.item.FishingData.FishingLootMessage;
 import minicraft.level.Level;
 import minicraft.level.tile.Tile;
 import minicraft.level.tile.Tiles;
@@ -620,7 +623,7 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 		boolean caught = false;
 
 		// Figure out which table to roll for
-		List<String> data = null;
+		FishingLoot data = null;
 		if (fcatch > FishingRodItem.getChance(0, fishingLevel)) {
 			data = FishingData.fishData;
 		} else if (fcatch > FishingRodItem.getChance(1, fishingLevel)) {
@@ -632,33 +635,27 @@ public class Player extends Mob implements ItemHolder, ClientTickable {
 		}
 
 		if (data != null) { // If you've caught something
-			for (String line: data) {
+            for (FishingLootItem items : data.getItems()) {
+                if (random.nextInt(100) + 1 <= items.getChance()) {
+                    int randomChance = random.nextInt(items.getItems().size());
+                    String item = items.getItems().get(randomChance);
 
-				// Check all the entries in the data
-				// The number is a percent, if one fails, it moves down the list
-				// For entries with a "," it chooses between the options
+                    if (Items.get(item).equals(Items.get("Raw Fish"))) {
+                        AchievementsDisplay.setAchievement("minicraft.achievement.fish",true);
+                    }
 
-				int chance = Integer.parseInt(line.split(":")[0]);
-				String itemData = line.split(":")[1];
-				if (random.nextInt(100) + 1 <= chance) {
-					if (itemData.contains(",")) { // If it has multiple items choose between them
-						String[] extendedData = itemData.split(",");
-						int randomChance = random.nextInt(extendedData.length);
-						itemData = extendedData[randomChance];
-					}
-					if (itemData.startsWith(";")) {
-						// For secret messages :=)
-						Game.notifications.add(itemData.substring(1));
-					} else {
-						if (Items.get(itemData).equals(Items.get("Raw Fish"))) {
-							AchievementsDisplay.setAchievement("minicraft.achievement.fish",true);
-						}
-						level.dropItem(x, y, Items.get(itemData));
-						caught = true;
-						break; // Don't let people catch more than one thing with one use
-					}
-				}
-			}
+                    level.dropItem(x, y, Items.get(item));
+                    caught = true;
+                    break; // Don't let people catch more than one thing with one use
+                }
+            }
+
+            // Secret messages :=)
+            for (FishingLootMessage msg : data.getSecretMessages()) {
+                if (random.nextInt(100) + 1 <= msg.getChance()) {
+                    Game.notifications.add(msg.getMessage());
+                }
+            }
 		} else {
 			caught = true; // End this fishing session
 		}

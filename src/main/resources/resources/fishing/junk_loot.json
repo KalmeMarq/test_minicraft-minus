@@ -1,0 +1,24 @@
+{
+  "loot": [
+    {
+      "item": ["cloth", "leather"],
+      "chance": 33
+    },
+    {
+      "item": "leather",
+      "chance": 20
+    },
+    {
+      "item": "bone",
+      "chance": 33
+    },
+    {
+      "item": "slime",
+      "chance": 20
+    },
+    {
+      "item": "wood",
+      "chance": 10
+    }
+  ]
+}

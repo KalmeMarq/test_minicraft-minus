@@ -1,0 +1,12 @@
+{
+  "loot": [
+    {
+      "item": "raw fish",
+      "chance": 33
+    },
+    {
+      "message": "Fishnorris got away",
+      "chance": 1
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "loot": [
+    {
+      "item": "book",
+      "chance": 20
+    },
+    {
+      "item": "gunpowder",
+      "chance": 7
+    },
+    {
+      "item": "torch",
+      "chance": 7,
+      "amount": 3
+    },
+    {
+      "item": "torch",
+      "chance": 5,
+      "amount": 2
+    },
+    {
+      "item": "bread",
+      "chance": 6,
+      "amount": 2
+    },
+    {
+      "item": "bread",
+      "chance": 5
+    },
+    {
+      "item": "wood",
+      "chance": 7,
+      "amount": 5
+    },
+    {
+      "item": "wood",
+      "chance": 5,
+      "amount": 4
+    },
+    {
+      "item": "wood",
+      "chance": 3
+    },
+    {
+      "item": "string",
+      "chance": 10,
+      "amount": 3
+    },
+    {
+      "item": "string",
+      "chance": 6,
+      "amount": 2
+    },
+    {
+      "item": "string",
+      "chance": 3
+    },
+    {
+      "item": "cloth",
+      "chance": 6
+    }
+  ],
+  "fallback": [
+    {
+      "item": "steak",
+      "amount": 2
+    },
+    {
+      "item": "wood",
+      "amount": 7
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "loot": [
+    {
+      "chance": 9,
+      "item": "tnt"
+    },
+    {
+      "chance": 10,
+      "item": "anvil"
+    },
+    {
+      "chance": 7,
+      "item": "bread",
+      "amount": 2
+    },
+    {
+      "chance": 2,
+      "item": "bread",
+      "amount": 3
+    },
+    {
+      "chance": 7,
+      "item": "leather armor"
+    },
+    {
+      "chance": 50,
+      "item": "gold apple"
+    },
+    {
+      "chance": 3,
+      "item": "lapis",
+      "amount": 2
+    },
+    {
+      "chance": 4,
+      "item": "glass",
+      "amount": 2
+    },
+    {
+      "chance": 4,
+      "item": "gunpowder",
+      "amount": 3
+    },
+    {
+      "chance": 4,
+      "item": "gunpowder",
+      "amount": 3
+    },
+    {
+      "chance": 4,
+      "item": "torch",
+      "amount": 4
+    },
+    {
+      "chance": 14,
+      "item": "swim potion"
+    },
+    {
+      "chance": 16,
+      "item": "haste potion"
+    },
+    {
+      "chance": 14,
+      "item": "light potion"
+    },
+    {
+      "chance": 14,
+      "item": "speed potion"
+    },
+    {
+      "chance": 16,
+      "item": "iron armor"
+    },
+    {
+      "chance": 5,
+      "item": "stone brick",
+      "amount": 4
+    },
+    {
+      "chance": 5,
+      "item": "stone brick",
+      "amount": 6
+    },
+    {
+      "chance": 4,
+      "item": "string",
+      "amount": 3
+    },
+    {
+      "chance": 4,
+      "item": "bone",
+      "amount": 2
+    },
+    {
+      "chance": 3,
+      "item": "bone"
+    },
+    {
+      "chance": 5,
+      "item": "torch",
+      "amount": 3
+    },
+    {
+      "chance": 6,
+      "item": "torch",
+      "amount": 6
+    },
+    {
+      "chance": 6,
+      "item": "torch",
+      "amount": 6
+    },
+    {
+      "chance": 7,
+      "item": "steak",
+      "amount": 3
+    },
+    {
+      "chance": 9,
+      "item": "steak",
+      "amount": 4
+    },
+    {
+      "chance": 7,
+      "item": "gem",
+      "amount": 3
+    },
+    {
+      "chance": 7,
+      "item": "gem",
+      "amount": 5
+    },
+    {
+      "chance": 7,
+      "item": "gem",
+      "amount": 4
+    },
+    {
+      "chance": 10,
+      "item": "yellow clothes"
+    },
+    {
+      "chance": 10,
+      "item": "black clothes"
+    },
+    {
+      "chance": 12,
+      "item": "orange clothes"
+    },
+    {
+      "chance": 12,
+      "item": "cyan clothes"
+    },
+    {
+      "chance": 12,
+      "item": "purple clothes"
+    },
+    {
+      "chance": 4,
+      "item": "arrow",
+      "amount": 5
+    }
+  ],
+  "fallback": [
+    {
+      "item": "potion"
+    },
+    {
+      "item": "coal",
+      "amount": 3
+    },
+    {
+      "item": "apple",
+      "amount": 3
+    },
+    {
+      "item": "dirt",
+      "amount": 7
+    }
+  ]
+}

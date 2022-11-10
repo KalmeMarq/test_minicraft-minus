@@ -1,0 +1,20 @@
+{
+  "loot": [
+    {
+      "item": "gunpowder",
+      "chance": 33
+    },
+    {
+      "item": "gem",
+      "chance": 20
+    },
+    {
+      "item": "book",
+      "chance": 20
+    },
+    {
+      "item": "gold apple",
+      "chance": 15
+    }
+  ]
+}
