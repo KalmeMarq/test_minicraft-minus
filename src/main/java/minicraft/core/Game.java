@@ -23,7 +23,7 @@ public class Game {
 
 	public static final String NAME = "Minicraft Plus"; // This is the name on the application window.
 
-	public static final Version VERSION = new Version("2.2.0-dev1");
+	public static final Version VERSION = new Version("2.2.0-dev2");
 
 	public static InputHandler input; // Input used in Game, Player, and just about all the *Menu classes.
 	public static Player player;
@@ -59,7 +59,6 @@ public class Game {
 
 	static boolean running = true;
 	public static void quit() { running = false; }
-
 
 	public static void main(String[] args) {
 		Thread.setDefaultUncaughtExceptionHandler(CrashHandler::crashHandle);

@@ -23,11 +23,12 @@ import org.jetbrains.annotations.NotNull;
 import minicraft.core.CrashHandler;
 import minicraft.core.Game;
 import minicraft.screen.ResourcePackDisplay;
+import minicraft.util.JsonUtil;
 import minicraft.util.Logging;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.tinylog.Logger;
+
+import com.google.gson.JsonObject;
 
 public class Localization {
 	public static final Locale DEFAULT_LOCALE = Locale.US;
@@ -151,10 +152,10 @@ public class Localization {
 		String fileText = loadLocalizationFile(selectedLocale);
 
 		// Attempt to load the string as a json object.
-		JSONObject json;
+		JsonObject json;
 		try {
-			json = new JSONObject(fileText);
-		} catch (JSONException e) {
+			json = JsonUtil.deserialize(fileText, JsonObject.class, true);
+		} catch (Exception e) {
 			// If it is the default locale, the game is too broken to run, so we should just quit.
 			if (selectedLocale == DEFAULT_LOCALE) {
 				CrashHandler.crashHandle(e, new CrashHandler.ErrorInfo("Localization Could not be Loaded", CrashHandler.ErrorInfo.ErrorType.SERIOUS, "The default locale contains broken json."));
@@ -169,7 +170,7 @@ public class Localization {
 
 		// Put all loc strings in a key-value set.
 		for (String key : json.keySet()) {
-			localization.put(key, json.getString(key));
+			localization.put(key, JsonUtil.getString(json, key));
 		}
 	}
 

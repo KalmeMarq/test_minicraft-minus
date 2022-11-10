@@ -1,0 +1,33 @@
+{
+  "Pos": [1933, 1574],
+  "SpawnPos": [86, 77],
+  "Health": 10,
+  "Hunger": 10,
+  "Armor": 0,
+  "ArmorDamageBuffer": 0,
+  "Score": 51,
+  "CurrentLevel": 3,
+  "PotionEffects": [],
+  "ShirtColor": 20132608,
+  "Inventory": [
+    {
+      "item": "Gem Fishing Rod"
+    },
+    {
+      "item": "Health Potion"
+    },
+    {
+      "item": "Speed Potion"
+    },
+    {
+      "item": "Raw Fish",
+      "amount": 2
+    },
+    {
+      "item": "gem"
+    },
+    {
+      "item": "cloth"
+    }
+  ]
+}

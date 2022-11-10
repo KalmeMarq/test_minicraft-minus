@@ -10,15 +10,18 @@ import minicraft.item.Inventory;
 import minicraft.item.Item;
 import minicraft.item.Items;
 import minicraft.screen.ContainerDisplay;
+import minicraft.util.JsonUtil;
+
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONArray;
-import org.json.JSONObject;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Chest extends Furniture implements ItemHolder {
 	private Inventory inventory; // Inventory of the chest
@@ -45,30 +48,31 @@ public class Chest extends Furniture implements ItemHolder {
 		try (InputStream stream = Game.class.getResourceAsStream("/resources/chestloot/" + lootTable  + ".json")) {
             if (stream != null) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-                String chestJson = reader.lines().collect(Collectors.joining("\n"));
 
-                JSONObject json = new JSONObject(chestJson);
+                JsonObject json = JsonUtil.deserialize(reader, JsonObject.class, false);
 
-                JSONArray loot = json.getJSONArray("loot");
+                JsonArray loot;
+                if ((loot = JsonUtil.getArray(json, "loot")) != null) {
+                    for (JsonElement object : loot) {
+                        JsonObject obj = object.getAsJsonObject();
+                        Item item = Items.get(JsonUtil.getString(obj, "item"));
+                        int amount = JsonUtil.getInt(obj, "amount", 1);
+                        int chance = JsonUtil.getInt(obj, "chance");
 
-                for (Object object : loot) {
-                    JSONObject obj = (JSONObject) object;
-                    Item item = Items.get(obj.getString("item"));
-                    int amount = obj.has("amount") ? obj.getInt("amount") : 1;
-                    int chance = obj.getInt("chance");
-
-                    inventory.tryAdd(chance, item, amount);
+                        inventory.tryAdd(chance, item, amount);
+                    }
                 }
 
                 if (inventory.invSize() == 0) {
-                    JSONArray fallback = json.getJSONArray("fallback");
+                    JsonArray fallback;
+                    if ((fallback = JsonUtil.getArray(json, "fallback")) != null) {
+                        for (JsonElement object : fallback) {
+                            JsonObject obj = object.getAsJsonObject();
+                            Item item = Items.get(JsonUtil.getString(obj, "item"));
+                            int amount = JsonUtil.getInt(obj, "amount", 1);
 
-                    for (Object object : fallback) {
-                        JSONObject obj = (JSONObject) object;
-                        Item item = Items.get(obj.getString("item"));
-                        int amount = obj.has("amount") ? obj.getInt("amount") : 1;
-
-                        inventory.add(item, amount);
+                            inventory.add(item, amount);
+                        }
                     }
                 }
             }

@@ -13,11 +13,14 @@ import minicraft.screen.entry.ListEntry;
 import minicraft.screen.entry.SelectEntry;
 import minicraft.screen.entry.StringEntry;
 import minicraft.util.Achievement;
+import minicraft.util.JsonUtil;
 import minicraft.util.Logging;
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,7 +29,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AchievementsDisplay extends Display {
     private static final HashMap<String, Achievement> achievements = new HashMap<>();
@@ -40,22 +42,19 @@ public class AchievementsDisplay extends Display {
             if (stream != null) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
-                // Read lines and combine into a string.
-                String achievementsJson = reader.lines().collect(Collectors.joining("\n"));
-
                 // Load json.
-                JSONArray json = new JSONArray(achievementsJson);
-                for (Object object : json) {
-                    JSONObject obj = (JSONObject) object;
+                JsonArray json = JsonUtil.deserialize(reader, JsonArray.class, false);
+                for (JsonElement object : json) {
+                    JsonObject obj = object.getAsJsonObject();
 
                     // Create an achievement with the data.
                     Achievement a = new Achievement(
-                            Localization.getLocalized(obj.getString("id")),
-                            obj.getString("description"),
-                            obj.getInt("score")
+                            Localization.getLocalized(JsonUtil.getString(obj, "id")),
+                            JsonUtil.getString(obj, "description"),
+                            JsonUtil.getInt(obj, "score")
                     );
 
-                    achievements.put(obj.getString("id"), a);
+                    achievements.put(JsonUtil.getString(obj, "id"), a);
                 }
             } else {
                 Logging.ACHIEVEMENT.error("Could not find achievements json.");
@@ -63,7 +62,7 @@ public class AchievementsDisplay extends Display {
         } catch (IOException ex) {
             Logging.ACHIEVEMENT.error("Could not read achievements from json file.");
             ex.printStackTrace();
-        } catch (JSONException e) {
+        } catch (JsonParseException e) {
             Logging.ACHIEVEMENT.error("Achievements json contains invalid json.");
         }
     }
@@ -219,10 +218,10 @@ public class AchievementsDisplay extends Display {
      * Unlocks a list of achievements.
      * @param unlockedAchievements An array of all the achievements we want to load, ids.
      */
-    public static void unlockAchievements(JSONArray unlockedAchievements) {
-        for (Object id : unlockedAchievements.toList()) {
-            if (!setAchievement(id.toString(), true, false, false)) {
-                Logging.ACHIEVEMENT.warn("Could not load unlocked achievement with name {}.", id.toString());
+    public static void unlockAchievements(JsonArray unlockedAchievements) {
+        for (JsonElement id : unlockedAchievements) {
+            if (!setAchievement(id.getAsString(), true, false, false)) {
+                Logging.ACHIEVEMENT.warn("Could not load unlocked achievement with name {}.", id.getAsString());
             }
         }
     }

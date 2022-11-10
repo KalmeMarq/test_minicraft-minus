@@ -1,21 +1,22 @@
 package minicraft.core;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 import minicraft.saveload.Version;
+import minicraft.util.JsonUtil;
 
 public class VersionInfo {
 	public final Version version;
 	public final String releaseUrl;
 	public final String releaseName;
 
-	public VersionInfo(JSONObject releaseInfo) {
-		String versionTag = releaseInfo.getString("tag_name").substring(1); // Cut off the "v" at the beginning
+	public VersionInfo(JsonObject releaseInfo) {
+		String versionTag = JsonUtil.getString(releaseInfo, "tag_name").substring(1); // Cut off the "v" at the beginning
 		version = new Version(versionTag);
 
-		releaseUrl = releaseInfo.getString("html_url");
+		releaseUrl = JsonUtil.getString(releaseInfo, "html_url");
 
-		releaseName = releaseInfo.getString("name");
+		releaseName = JsonUtil.getString(releaseInfo, "name");
 	}
 
 	public VersionInfo(Version version, String releaseUrl, String releaseName) {

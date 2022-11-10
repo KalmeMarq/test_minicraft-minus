@@ -20,11 +20,9 @@ import minicraft.item.PotionEffect;
 import minicraft.item.PotionType;
 import minicraft.item.Recipe;
 import minicraft.screen.*;
+import minicraft.util.JsonUtil;
 import minicraft.util.Logging;
 import minicraft.util.Quest;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -34,12 +32,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 public class Save {
 	public String location = Game.gameDir;
 	File folder;
-
-	// Used to indent the .json files
-	private static final int indent = 4;
 
 	public static String extension = ".miniplussave";
 
@@ -168,43 +166,51 @@ public class Save {
 	}
 
 	private void writePrefs() {
-		JSONObject json = new JSONObject();
+		JsonObject json = new JsonObject();
 
-		json.put("version", String.valueOf(Game.VERSION));
-		json.put("sound", String.valueOf(Settings.get("sound")));
-		json.put("autosave", String.valueOf(Settings.get("autosave")));
-		json.put("fps", String.valueOf(Settings.get("fps")));
-		json.put("lang", Localization.getSelectedLocale().toLanguageTag());
-		json.put("skinIdx", String.valueOf(SkinDisplay.getSelectedSkinIndex()));
-		json.put("savedIP", MultiplayerDisplay.savedIP);
-		json.put("savedUUID", MultiplayerDisplay.savedUUID);
-		json.put("savedUsername", MultiplayerDisplay.savedUsername);
-		json.put("keymap", new JSONArray(Game.input.getKeyPrefs()));
-		json.put("resourcePack", ResourcePackDisplay.getLoadedPack());
-		json.put("showquests", String.valueOf(Settings.get("showquests")));
+		json.addProperty("version", String.valueOf(Game.VERSION));
+		json.addProperty("sound", String.valueOf(Settings.get("sound")));
+		json.addProperty("autosave", String.valueOf(Settings.get("autosave")));
+		json.addProperty("fps", String.valueOf(Settings.get("fps")));
+		json.addProperty("lang", Localization.getSelectedLocale().toLanguageTag());
+		json.addProperty("skinIdx", String.valueOf(SkinDisplay.getSelectedSkinIndex()));
+		json.addProperty("savedIP", MultiplayerDisplay.savedIP);
+		json.addProperty("savedUUID", MultiplayerDisplay.savedUUID);
+		json.addProperty("savedUsername", MultiplayerDisplay.savedUsername);
+        JsonArray keymaps = new JsonArray();
+        for (String keymap : Game.input.getKeyPrefs()) {
+            keymaps.add(keymap);
+        }
+		json.add("keymap", keymaps);
+		json.addProperty("resourcePack", ResourcePackDisplay.getLoadedPack());
+		json.addProperty("showquests", String.valueOf(Settings.get("showquests")));
 
 		// Save json
 		try {
-			writeJSONToFile(location + "Preferences.json", json.toString(indent));
+			writeJSONToFile(location + "Preferences.json", JsonUtil.toString(json));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void writeUnlocks() {
-		JSONObject json = new JSONObject();
+		JsonObject json = new JsonObject();
 
-		JSONArray scoretimes = new JSONArray();
+		JsonArray scoretimes = new JsonArray();
 		if (Settings.getEntry("scoretime").getValueVisibility(10))
-			scoretimes.put(10);
+			scoretimes.add(10);
 		if (Settings.getEntry("scoretime").getValueVisibility(120))
-			scoretimes.put(120);
-		json.put("visibleScoreTimes", scoretimes);
+			scoretimes.add(120);
+		json.add("visibleScoreTimes", scoretimes);
 
-		json.put("unlockedAchievements", new JSONArray(AchievementsDisplay.getUnlockedAchievements()));
+        JsonArray unlockedAchievs = new JsonArray();
+        for (String achiev : AchievementsDisplay.getUnlockedAchievements()) {
+            unlockedAchievs.add(achiev);
+        }
+		json.add("unlockedAchievements", unlockedAchievs);
 
 		try {
-			writeJSONToFile(location + "Unlocks.json", json.toString(indent));
+			writeJSONToFile(location + "Unlocks.json", JsonUtil.toString(json));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -239,37 +245,39 @@ public class Save {
 		}
 
 		if ((boolean) Settings.get("quests") || (boolean) Settings.get("tutorials")) {
-			JSONObject fileObj = new JSONObject();
-			JSONArray unlockedQuests = new JSONArray();
-			JSONArray doneQuests = new JSONArray();
-			JSONObject questData = new JSONObject();
-			JSONObject lockedRecipes = new JSONObject();
+			JsonObject fileObj = new JsonObject();
+			JsonArray unlockedQuests = new JsonArray();
+			JsonArray doneQuests = new JsonArray();
+			JsonObject questData = new JsonObject();
+			JsonObject lockedRecipes = new JsonObject();
 
 			for (Quest q : QuestsDisplay.getUnlockedQuests()) {
-				unlockedQuests.put(q.id);
+				unlockedQuests.add(q.id);
 			}
 
 			for (Quest q : QuestsDisplay.getCompletedQuest()) {
-				doneQuests.put(q.id);
+				doneQuests.add(q.id);
 			}
 
 			for (Entry<String, QuestsDisplay.QuestStatus> e : QuestsDisplay.getStatusQuests().entrySet()) {
-				questData.put(e.getKey(), e.getValue().toQuestString());
+				questData.addProperty(e.getKey(), e.getValue().toQuestString());
 			}
 
 			for (Recipe recipe : CraftingDisplay.getLockedRecipes()) {
-				JSONArray costs = new JSONArray();
-				recipe.getCosts().forEach((c, i) -> costs.put(c + "_" + i));
-				lockedRecipes.put(recipe.getProduct().getName() + "_" + recipe.getAmount(), costs);
+				JsonArray costs = new JsonArray();
+				recipe.getCosts().forEach((c, i) -> {
+                    costs.add(c + "_" + i);
+                });
+				lockedRecipes.add(recipe.getProduct().getName() + "_" + recipe.getAmount(), costs);
 			}
 
-			fileObj.put("unlocked", unlockedQuests);
-			fileObj.put("done", doneQuests);
-			fileObj.put("data", questData);
-			fileObj.put("lockedRecipes", lockedRecipes);
+			fileObj.add("unlocked", unlockedQuests);
+			fileObj.add("done", doneQuests);
+			fileObj.add("data", questData);
+			fileObj.add("lockedRecipes", lockedRecipes);
 
 			try {
-				writeJSONToFile(location + "Quests.json", fileObj.toString());
+				writeJSONToFile(location + "Quests.json", JsonUtil.toString(fileObj));
 
 			} catch (IOException e1) {
 				e1.printStackTrace();

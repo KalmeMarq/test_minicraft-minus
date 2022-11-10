@@ -16,7 +16,7 @@ import minicraft.entity.Entity;
 import minicraft.level.Level;
 import minicraft.util.Logging;
 
-import org.json.JSONObject;
+import com.google.gson.JsonObject;
 
 public class Network extends Game {
 	private Network() {}
@@ -38,7 +38,12 @@ public class Network extends Game {
 					Logging.NETWORK.error("Response body: " + response.getBody());
 					latestVersion = new VersionInfo(VERSION, "", "");
 				} else {
-					latestVersion = new VersionInfo(new JSONObject(response.getBody().getArray().getJSONObject(0).toString()));
+                    kong.unirest.json.JSONObject resJson = response.getBody().getArray().getJSONObject(0);
+                    JsonObject obj = new JsonObject();
+                    obj.addProperty("tag_name", resJson.getString("tag_name"));
+                    obj.addProperty("html_url", resJson.getString("html_url"));
+                    obj.addProperty("name", resJson.getString("name"));
+					latestVersion = new VersionInfo(obj);
 				}
 			} catch (UnirestException e) {
 				e.printStackTrace();

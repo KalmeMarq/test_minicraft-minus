@@ -6,12 +6,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.json.JSONArray;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
 import minicraft.core.Game;
+import minicraft.util.JsonUtil;
 
 public class FishingData {
     public static final FishingLoot fishData = getData("fish");
@@ -25,34 +26,30 @@ public class FishingData {
         try (InputStream stream = Game.class.getResourceAsStream("/resources/fishing/" + name  + "_loot.json")) {
             if (stream != null) {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-                String fishingJson = reader.lines().collect(Collectors.joining("\n"));
-
-                JSONObject json = new JSONObject(fishingJson);
+                JsonObject json = JsonUtil.deserialize(reader, JsonObject.class, false);
 
                 List<FishingLootItem> items = new ArrayList<>();
                 List<FishingLootMessage> msgs = new ArrayList<>();
 
-                if (json.has("loot")) {
-                    JSONArray loot = json.getJSONArray("loot");
+                if (JsonUtil.hasArray(json, "loot")) {
+                    JsonArray loot = JsonUtil.getArray(json, "loot");
 
-                    for (Object object : loot) {
-                        JSONObject obj = (JSONObject) object;
+                    for (JsonElement object : loot) {
+                        JsonObject obj = object.getAsJsonObject();
+                        int chance = JsonUtil.getInt(obj, "chance");
 
-                        if (obj.has("message")) {
-                            String msg = obj.getString("message");
-                            int chance = obj.getInt("chance");
-
+                        if (JsonUtil.hasString(obj, "message")) {
+                            String msg = JsonUtil.getString(obj, "message");
                             msgs.add(new FishingLootMessage(msg, chance));
-                        } else if (obj.has("item")) {
+                        } else if (JsonUtil.hasElement(obj, "item")) {
                             List<String> its = new ArrayList<>();
-                            int chance = obj.getInt("chance");
 
-                            if (obj.get("item") instanceof JSONArray) {
-                                for (Object object1 : obj.getJSONArray("item")) {
-                                    its.add((String) object1);
+                            if (JsonUtil.hasArray(obj, "item")) {
+                                for (JsonElement object1 : JsonUtil.getArray(obj, "item")) {
+                                    its.add(object1.getAsString());
                                 }
-                            } else {
-                                its.add(obj.getString("item"));
+                            } else if (JsonUtil.hasString(obj, "item")) {
+                                its.add(JsonUtil.getString(obj, "item"));
                             }
 
                             if (its.size() > 0) {

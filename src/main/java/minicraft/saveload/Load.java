@@ -17,12 +17,15 @@ import minicraft.level.Level;
 import minicraft.level.tile.Tiles;
 import minicraft.network.Network;
 import minicraft.screen.*;
+import minicraft.util.JsonUtil;
 import minicraft.util.Logging;
 
 import org.jetbrains.annotations.Nullable;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -343,37 +346,36 @@ public class Load {
 	}
 
 	private void loadPrefs(String filename) {
-		JSONObject json;
+		JsonObject json;
 		try {
-			json = new JSONObject(loadFromFile(location + filename + ".json", false));
-		} catch (JSONException | IOException ex) {
+			json = JsonUtil.deserialize(loadFromFile(location + filename + ".json", false), JsonObject.class, false);
+		} catch (JsonParseException | IOException ex) {
 			ex.printStackTrace();
 			return;
 		}
 
 		/* Start of the parsing */
-		Version prefVer = new Version(json.getString("version"));
+		Version prefVer = new Version(JsonUtil.getString(json, "version"));
 
 		// Settings
-		Settings.set("sound", json.getBoolean("sound"));
-		Settings.set("autosave", json.getBoolean("autosave"));
-		Settings.set("fps", json.getInt("fps"));
-		Settings.set("showquests", json.optBoolean("showquests", true));
+		Settings.set("sound", Boolean.parseBoolean(JsonUtil.getString(json, "sound")));
+		Settings.set("autosave", Boolean.parseBoolean(JsonUtil.getString(json, "autosave")));
+		Settings.set("fps", Integer.parseInt(JsonUtil.getString(json, "fps")));
+		Settings.set("showquests", Boolean.parseBoolean(JsonUtil.getString(json, "showquests", "true")));
 
 		if (json.has("lang")) {
-			String lang = json.getString("lang");
+			String lang = JsonUtil.getString(json, "lang");
 			Settings.set("language", lang);
 			Localization.changeLanguage(lang);
 		}
 
-		SkinDisplay.setSelectedSkinIndex(json.getInt("skinIdx"));
+		SkinDisplay.setSelectedSkinIndex(Integer.parseInt(JsonUtil.getString(json, "skinIdx")));
 
 		// Load keymap
-		JSONArray keyData = json.getJSONArray("keymap");
-		List<Object> subdata = keyData.toList();
+		JsonArray keyData = JsonUtil.getArray(json, "keymap");
 
-		for (Object key : subdata) {
-			String str = key.toString();
+		for (JsonElement key : keyData) {
+			String str = key.getAsString();
 
 			// Split key and value
 			String[] map = str.split(";");
@@ -381,7 +383,7 @@ public class Load {
 		}
 
 		if (json.has("resourcePack"))
-			new ResourcePackDisplay().setLoadedPack(json.getString("resourcePack"));
+			new ResourcePackDisplay().setLoadedPack(JsonUtil.getString(json, "resourcePack"));
 	}
 
 	private void loadUnlocksOld(String filename) {
@@ -396,21 +398,21 @@ public class Load {
 	}
 
 	private void loadUnlocks(String filename) {
-		JSONObject json;
+		JsonObject json;
 		try {
-			json = new JSONObject(loadFromFile(location + filename + ".json", false));
-		} catch (JSONException | IOException ex) {
+			json = JsonUtil.deserialize(loadFromFile(location + filename + ".json", false), JsonObject.class, false);
+		} catch (JsonParseException | IOException ex) {
 			ex.printStackTrace();
 			return;
 		}
 
-		for (Object i : json.getJSONArray("visibleScoreTimes")) {
-			Settings.getEntry("scoretime").setValueVisibility(i, true); // Minutes
+		for (JsonElement i : JsonUtil.getArray(json, "visibleScoreTimes")) {
+			Settings.getEntry("scoretime").setValueVisibility(i.getAsInt(), true); // Minutes
 		}
 
 		// Load unlocked achievements.
-		if (json.has("unlockedAchievements"))
-			AchievementsDisplay.unlockAchievements(json.getJSONArray("unlockedAchievements"));
+		if (JsonUtil.hasArray(json, "unlockedAchievements"))
+			AchievementsDisplay.unlockAchievements(JsonUtil.getArray(json, "unlockedAchievements"));
 	}
 
 	private void loadWorld(String filename) {
@@ -513,34 +515,34 @@ public class Load {
 		if ((boolean) Settings.get("quests") || (boolean) Settings.get("tutorials")) {
 			if (new File(location+"Quests.json").exists()) {
 				try {
-					JSONObject questsObj = new JSONObject(loadFromFile(location + "Quests.json", true));
-					JSONArray unlockedQuests = questsObj.getJSONArray("unlocked");
-					JSONArray doneQuests = questsObj.getJSONArray("done");
-					JSONObject questData = questsObj.getJSONObject("data");
-					JSONObject lockedRecipes = questsObj.getJSONObject("lockedRecipes");
+					JsonObject questsObj = JsonUtil.deserialize(loadFromFile(location + "Quests.json", true));
+					JsonArray unlockedQuests = JsonUtil.getArray(questsObj, "unlocked");
+					JsonArray doneQuests = JsonUtil.getArray(questsObj, "done");
+					JsonObject questData = JsonUtil.getObject(questsObj, "data");
+					JsonObject lockedRecipes = JsonUtil.getObject(questsObj, "lockedRecipes");
 
 					ArrayList<String> unlocked = new ArrayList<>();
 					ArrayList<String> done = new ArrayList<>();
 					HashMap<String, String> questStatus = new HashMap<>();
 					ArrayList<Recipe> recipeLocks = new ArrayList<>();
 
-					for (int i = 0; i < unlockedQuests.length(); i++) {
-						unlocked.add(unlockedQuests.getString(i));
+					for (int i = 0; i < unlockedQuests.size(); i++) {
+						unlocked.add(unlockedQuests.get(i).getAsString());
 					}
 
-					for (int i = 0; i < doneQuests.length(); i++) {
-						done.add(doneQuests.getString(i));
+					for (int i = 0; i < doneQuests.size(); i++) {
+						done.add(doneQuests.get(i).getAsString());
 					}
 
 					for (String i : questData.keySet()) {
-						questStatus.put(i, questData.getString(i));
+						questStatus.put(i, JsonUtil.getString(questData, i));
 					}
 
 					for (String i : lockedRecipes.keySet()) {
-						JSONArray costsJson = lockedRecipes.getJSONArray(i);
-						String[] costs = new String[costsJson.length()];
-						for (int j = 0; j < costsJson.length(); j++) {
-							costs[j] = costsJson.getString(j);
+						JsonArray costsJson = JsonUtil.getArray(lockedRecipes, i);
+						String[] costs = new String[costsJson.size()];
+						for (int j = 0; j < costsJson.size(); j++) {
+							costs[j] = costsJson.get(j).getAsString();
 						}
 
 						recipeLocks.add(new Recipe(i, costs));

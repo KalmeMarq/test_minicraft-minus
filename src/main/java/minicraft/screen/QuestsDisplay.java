@@ -17,12 +17,11 @@ import minicraft.screen.entry.BlankEntry;
 import minicraft.screen.entry.ListEntry;
 import minicraft.screen.entry.SelectEntry;
 import minicraft.screen.entry.StringEntry;
+import minicraft.util.JsonUtil;
 import minicraft.util.Logging;
 import minicraft.util.Quest;
 import minicraft.util.Quest.QuestReward;
 import minicraft.util.Quest.QuestSeries;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,6 +30,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+
+import org.jetbrains.annotations.Nullable;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 public class QuestsDisplay extends Display {
 	private final static HashMap<String, Quest> quests = new HashMap<>();
@@ -62,22 +66,23 @@ public class QuestsDisplay extends Display {
 	}
 
 	private static void loadQuestFile(String filename, boolean tutorial) throws IOException {
-		JSONObject json = new JSONObject(String.join("", Load.loadFile(filename)));
-		for (String id : json.keySet()) {
-			loadSeries(id, json.getJSONObject(id), tutorial);
+		JsonObject json = JsonUtil.deserialize(String.join("", Load.loadFile(filename)), JsonObject.class, false);
+
+        for (String id : json.keySet()) {
+			loadSeries(id, JsonUtil.getObject(json, id), tutorial);
 		}
 	}
 
-	private static void loadSeries(String id, JSONObject json, boolean tutorial) {
-		boolean unlocked = json.optBoolean("unlocked", false); // Is unlocked initially
-		JSONArray unlocksJson = json.optJSONArray("leads_to");
-		JSONArray questsJson = json.getJSONArray("quests");
+	private static void loadSeries(String id, JsonObject json, boolean tutorial) {
+		boolean unlocked = JsonUtil.getBoolean(json, "unlocked", false); // Is unlocked initially
+		JsonArray unlocksJson = JsonUtil.getArray(json, "leads_to");
+		JsonArray questsJson = JsonUtil.getArray(json, "quests");
 
 		String[] unlocks = new String[0];
 		if (unlocksJson != null) {
-			unlocks = new String[unlocksJson.length()];
-			for (int i = 0; i < unlocksJson.length(); i++) {
-				unlocks[i] = unlocksJson.getString(i);
+			unlocks = new String[unlocksJson.size()];
+			for (int i = 0; i < unlocksJson.size(); i++) {
+				unlocks[i] = unlocksJson.get(i).getAsString();
 			}
 		}
 
@@ -85,33 +90,36 @@ public class QuestsDisplay extends Display {
 			initiallyUnlocked.add(id);
 
 		ArrayList<Quest> seriesQuests = new ArrayList<>();
-		for (int i = 0; i < questsJson.length(); i++) {
-			Quest quest = loadQuest(questsJson.getJSONObject(i));
-			seriesQuests.add(quest);
-			quests.put(quest.id, quest);
-		}
 
-		series.put(id, new QuestSeries(id, json.getString("description"), seriesQuests, loadReward(json.optJSONObject("reward")), unlocked, tutorial, unlocks));
+        if (questsJson != null) {
+            for (int i = 0; i < questsJson.size(); i++) {
+                Quest quest = loadQuest(questsJson.get(i).getAsJsonObject());
+                seriesQuests.add(quest);
+                quests.put(quest.id, quest);
+            }
+        }
+
+		series.put(id, new QuestSeries(id, JsonUtil.getString(json, "description"), seriesQuests, loadReward(JsonUtil.getObject(json, "reward")), unlocked, tutorial, unlocks));
 	}
 
-	private static QuestReward loadReward(JSONObject json) {
+	private static QuestReward loadReward(@Nullable JsonObject json) {
 		ArrayList<Item> items = new ArrayList<>();
 		ArrayList<Recipe> recipes = new ArrayList<>();
 		if (json != null) {
-			JSONArray itemsJson = json.optJSONArray("items");
+			JsonArray itemsJson = JsonUtil.getArray(json, "items");
 			if (itemsJson != null) {
-				for (int i = 0; i < itemsJson.length(); i++) {
-					items.add(Items.get(itemsJson.getString(i)));
+				for (int i = 0; i < itemsJson.size(); i++) {
+					items.add(Items.get(itemsJson.get(i).getAsString()));
 				}
 			}
 
-			JSONArray recipesJson = json.optJSONArray("recipes");
+			JsonObject recipesJson = JsonUtil.getObject(json, "recipes");
 			if (recipesJson != null) {
-				for (String product : json.keySet()) {
-					JSONArray costsJson = json.getJSONArray(product);
-					String[] costs = new String[costsJson.length()];
-					for (int j = 0; j < costsJson.length(); j++) {
-						costs[j] = costsJson.getString(j);
+				for (String product : recipesJson.keySet()) {
+					JsonArray costsJson = JsonUtil.getArray(recipesJson, product);
+					String[] costs = new String[costsJson.size()];
+					for (int j = 0; j < costsJson.size(); j++) {
+						costs[j] = costsJson.get(j).getAsString();
 					}
 
 					recipes.add(new Recipe(product, costs));
@@ -122,17 +130,18 @@ public class QuestsDisplay extends Display {
 		return new QuestReward(items, recipes);
 	}
 
-	private static Quest loadQuest(JSONObject json) {
-		JSONArray unlocksJson = json.optJSONArray("leads_to");
-		String[] unlocks = new String[0];
-		if (unlocksJson != null) {
-			unlocks = new String[unlocksJson.length()];
-			for (int i = 0; i < unlocksJson.length(); i++) {
-				unlocks[i] = unlocksJson.getString(i);
+	private static Quest loadQuest(JsonObject json) {
+        String[] unlocks = new String[0];
+
+		JsonArray unlocksJson;
+		if ((unlocksJson = JsonUtil.getArray(json, "leads_to")) != null) {
+			unlocks = new String[unlocksJson.size()];
+			for (int i = 0; i < unlocksJson.size(); i++) {
+				unlocks[i] = unlocksJson.get(i).getAsString();
 			}
 		}
 
-		return new Quest(json.getString("id"), json.getString("description"), loadReward(json.optJSONObject("reward")), false, unlocks);
+		return new Quest(JsonUtil.getString(json, "id"), JsonUtil.getString(json, "description"), loadReward(JsonUtil.getObject(json, "reward")), false, unlocks);
 	}
 
 
