@@ -1,6 +1,6 @@
 package minicraft.screen;
 
-import minicraft.util.MyUtils;
+import minicraft.util.Utils;
 import minicraft.gfx.Dimension;
 import minicraft.gfx.Point;
 import minicraft.gfx.Rectangle;
@@ -29,7 +29,7 @@ public enum RelPos {
 	}
 
 	public static RelPos getPos(int xIndex, int yIndex) {
-		return values()[MyUtils.clamp(xIndex, 0, 2) + MyUtils.clamp(yIndex, 0, 2)*3];
+		return values()[Utils.clamp(xIndex, 0, 2) + Utils.clamp(yIndex, 0, 2)*3];
 	}
 
 	public RelPos getOpposite() {

@@ -19,8 +19,7 @@ public class Font {
 	public static void draw(String msg, Screen screen, int x, int y) { draw(msg, screen, x, y, -1); }
 
 	/** Draws the message to the x & y coordinates on the screen. */
-	public static void
-	draw(String msg, Screen screen, int x, int y, int whiteTint) {
+	public static void draw(String msg, Screen screen, int x, int y, int whiteTint) {
 		msg = msg.toUpperCase(Localization.getSelectedLocale()); //makes all letters uppercase.
 		for (int i = 0; i < msg.length(); i++) { // Loops through all the characters that you typed
 			int ix = chars.indexOf(msg.charAt(i)); // The current letter in the message loop

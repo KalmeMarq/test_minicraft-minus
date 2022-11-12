@@ -465,7 +465,6 @@ public class Renderer extends Game {
 			Font.draw(msg, screen, xx, yy, Color.get(5, 255));
 	}
 
-
 	static java.awt.Dimension getWindowSize() {
 		return new java.awt.Dimension((int) (WIDTH * SCALE), (int) (HEIGHT * SCALE));
 	}
